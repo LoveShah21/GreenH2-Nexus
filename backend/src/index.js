@@ -26,7 +26,7 @@ const recommendationRoutes = require('./routes/recommendations');
 // Import services
 const { logger } = require('./utils/logger');
 
-class Server {
+class App {
   constructor() {
     this.app = express();
     this.server = createServer(this.app);
@@ -230,7 +230,7 @@ class Server {
 }
 
 // Create and start server instance
-const server = new Server();
+const server = new App();
 server.start().catch(error => {
   logger.error('Failed to start server:', error);
   process.exit(1);
