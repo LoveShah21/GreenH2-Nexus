@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+/* Custom CSS variables and styles */
+
+/* 8-point grid system base */
+:root {
+  --grid-unit: 8px;
+  --background-light: #F8FAFC;
+  --background-dark: #0F172A;
+  --surface-light: #FFFFFF;
+  --surface-dark: #1E293B;
+  --text-primary-light: #1E293B;
+  --text-primary-dark: #F8FAFC;
+  --text-secondary-light: #64748B;
+  --text-secondary-dark: #CBD5E1;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  background-color: var(--background-light);
+  color: var(--text-primary-light);
+}
+
+/* Dark theme */
+.dark body {
+  background-color: var(--background-dark);
+  color: var(--text-primary-dark);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #475569;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #64748B;
+}
+
+/* Focus styles */
+.focus-ring {
+  @apply focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800;
+}
+
+/* Animation utilities */
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  background-size: 200px 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Grid system utilities */
+.grid-8 {
+  display: grid;
+  gap: var(--grid-unit);
+}
+
+.grid-16 {
+  display: grid;
+  gap: calc(var(--grid-unit) * 2);
+}
+
+.grid-24 {
+  display: grid;
+  gap: calc(var(--grid-unit) * 3);
+}
