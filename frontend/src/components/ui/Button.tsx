@@ -35,7 +35,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       outline:
         "border-2 border-emerald-500 text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 focus:ring-emerald-500",
       ghost:
-        "text-text-primary-light dark:text-text-primary-dark hover:bg-gray-100 dark:hover:bg-gray-800 focus:ring-gray-500",
+        "text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 focus:ring-gray-500",
       danger:
         "bg-red-500 text-white hover:bg-red-600 focus:ring-red-500 shadow-sm",
     };
@@ -47,23 +47,26 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     };
 
     return (
-      <motion.button
-        ref={ref}
-        className={cn(baseClasses, variants[variant], sizes[size], className)}
-        disabled={disabled || isLoading}
+      <motion.div
         whileHover={{ scale: disabled || isLoading ? 1 : 1.02 }}
         whileTap={{ scale: disabled || isLoading ? 1 : 0.98 }}
-        {...props}
       >
-        {isLoading ? (
-          <div className="flex items-center">
-            <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin mr-2" />
-            Loading...
-          </div>
-        ) : (
-          children
-        )}
-      </motion.button>
+        <button
+          ref={ref}
+          className={cn(baseClasses, variants[variant], sizes[size], className)}
+          disabled={disabled || isLoading}
+          {...props}
+        >
+          {isLoading ? (
+            <div className="flex items-center">
+              <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin mr-2" />
+              Loading...
+            </div>
+          ) : (
+            children
+          )}
+        </button>
+      </motion.div>
     );
   }
 );

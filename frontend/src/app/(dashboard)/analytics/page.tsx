@@ -11,6 +11,9 @@ import {
   MapPin,
   Filter,
 } from "lucide-react";
+import CapacityTrendsChart from "@/components/analytics/CapacityTrendsChart";
+import RegionalDistributionChart from "@/components/analytics/RegionalDistributionChart";
+import InvestmentFlowChart from "@/components/analytics/InvestmentFlowChart";
 
 export default function AnalyticsPage() {
   return (
@@ -57,7 +60,9 @@ export default function AnalyticsPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">45.2 GW</div>
-            <p className="text-xs text-green-600">+18% from last quarter</p>
+            <p className="text-xs text-emerald-700 dark:text-emerald-300">
+              +18% from last quarter
+            </p>
           </CardContent>
         </Card>
 
@@ -70,7 +75,9 @@ export default function AnalyticsPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">$124.5B</div>
-            <p className="text-xs text-green-600">+25% from last quarter</p>
+            <p className="text-xs text-emerald-700 dark:text-emerald-300">
+              +25% from last quarter
+            </p>
           </CardContent>
         </Card>
 
@@ -83,7 +90,9 @@ export default function AnalyticsPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">1,247</div>
-            <p className="text-xs text-green-600">+12% from last quarter</p>
+            <p className="text-xs text-emerald-700 dark:text-emerald-300">
+              +12% from last quarter
+            </p>
           </CardContent>
         </Card>
 
@@ -96,54 +105,37 @@ export default function AnalyticsPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">87.3%</div>
-            <p className="text-xs text-green-600">+5.2% from last quarter</p>
+            <p className="text-xs text-emerald-700 dark:text-emerald-300">
+              +5.2% from last quarter
+            </p>
           </CardContent>
         </Card>
       </motion.div>
-      {/* Charts Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-        >
-          <Card>
-            <CardHeader>
-              <CardTitle>Capacity Trends</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="h-64 bg-gradient-to-br from-primary-50 to-secondary-50 dark:from-primary-900/20 dark:to-secondary-900/20 rounded-lg flex items-center justify-center">
-                <div className="text-center">
-                  <BarChart3 className="w-12 h-12 text-primary-500 mx-auto mb-2" />
-                  <p className="text-gray-600 dark:text-gray-300">
-                    Chart Component
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
+      {/* Advanced Capacity Trends Chart */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+      >
+        <CapacityTrendsChart />
+      </motion.div>
 
+      {/* Additional Charts Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
         >
-          <Card>
-            <CardHeader>
-              <CardTitle>Regional Distribution</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="h-64 bg-gradient-to-br from-secondary-50 to-accent-50 dark:from-secondary-900/20 dark:to-accent-900/20 rounded-lg flex items-center justify-center">
-                <div className="text-center">
-                  <MapPin className="w-12 h-12 text-secondary-500 mx-auto mb-2" />
-                  <p className="text-gray-600 dark:text-gray-300">
-                    Map Component
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          <RegionalDistributionChart />
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+        >
+          <InvestmentFlowChart />
         </motion.div>
       </div>
 

@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Map, BarChart3, Zap, Globe, Users, Lightbulb } from "lucide-react";
 
 const features = [
@@ -10,68 +9,86 @@ const features = [
     title: "Interactive Mapping",
     description:
       "Visualize hydrogen infrastructure projects on an interactive map with real-time data and geospatial analysis.",
-    color: "text-primary-500",
-    bgColor: "bg-primary-50 dark:bg-primary-900/20",
+    color: "text-emerald-400",
+    bgColor: "bg-emerald-500/10",
+    borderColor: "border-emerald-500/20",
   },
   {
     icon: BarChart3,
     title: "Advanced Analytics",
     description:
       "Get insights from complex data analysis, capacity trends, and investment flow tracking.",
-    color: "text-secondary-500",
-    bgColor: "bg-secondary-50 dark:bg-secondary-900/20",
+    color: "text-blue-400",
+    bgColor: "bg-blue-500/10",
+    borderColor: "border-blue-500/20",
   },
   {
     icon: Zap,
     title: "Site Optimization",
     description:
       "AI-powered site suitability analysis for optimal hydrogen production and storage facility placement.",
-    color: "text-accent-500",
-    bgColor: "bg-accent-50 dark:bg-accent-900/20",
+    color: "text-yellow-400",
+    bgColor: "bg-yellow-500/10",
+    borderColor: "border-yellow-500/20",
   },
   {
     icon: Globe,
     title: "Global Coverage",
     description:
       "Access worldwide hydrogen project data with regional analysis and international collaboration tools.",
-    color: "text-emerald-500",
-    bgColor: "bg-emerald-50 dark:bg-emerald-900/20",
+    color: "text-teal-400",
+    bgColor: "bg-teal-500/10",
+    borderColor: "border-teal-500/20",
   },
   {
     icon: Users,
     title: "Collaboration Hub",
     description:
       "Connect with stakeholders, share project insights, and collaborate on infrastructure development.",
-    color: "text-purple-500",
-    bgColor: "bg-purple-50 dark:bg-purple-900/20",
+    color: "text-purple-400",
+    bgColor: "bg-purple-500/10",
+    borderColor: "border-purple-500/20",
   },
   {
     icon: Lightbulb,
     title: "Smart Recommendations",
     description:
       "Get intelligent suggestions for project optimization, cost reduction, and strategic planning.",
-    color: "text-orange-500",
-    bgColor: "bg-orange-50 dark:bg-orange-900/20",
+    color: "text-orange-400",
+    bgColor: "bg-orange-500/10",
+    borderColor: "border-orange-500/20",
   },
 ];
 
 export function FeaturesSection() {
   return (
-    <section className="py-20 bg-gray-50 dark:bg-gray-800">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section
+      id="features"
+      className="py-24 bg-slate-900 relative overflow-hidden"
+    >
+      {/* Background Effects */}
+      <div className="absolute inset-0">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-emerald-500/10 rounded-full filter blur-3xl" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full filter blur-3xl" />
+      </div>
+
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-20"
         >
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl">
-            Powerful Features for Infrastructure Development
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+            Powerful Features for{" "}
+            <span className="bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
+              Infrastructure Development
+            </span>
           </h2>
-          <p className="mt-4 text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
             Everything you need to plan, analyze, and optimize green hydrogen
-            infrastructure projects with confidence.
+            infrastructure projects with confidence and precision.
           </p>
         </motion.div>
 
@@ -79,104 +96,89 @@ export function FeaturesSection() {
           {features.map((feature, index) => (
             <motion.div
               key={feature.title}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true }}
+              whileHover={{ y: -5 }}
+              className="group"
             >
-              <Card className="h-full hover:shadow-lg transition-all duration-300 group cursor-pointer">
-                <CardHeader>
+              <div
+                className={`relative h-full p-8 rounded-2xl ${feature.bgColor} backdrop-blur-sm border ${feature.borderColor} hover:border-opacity-50 transition-all duration-300`}
+              >
+                {/* Glow Effect */}
+                <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <div
-                    className={`w-12 h-12 rounded-lg ${feature.bgColor} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}
+                    className={`absolute inset-0 rounded-2xl ${feature.bgColor} blur-xl`}
+                  />
+                </div>
+
+                <div className="relative">
+                  {/* Icon */}
+                  <div
+                    className={`w-16 h-16 rounded-xl ${feature.bgColor} border ${feature.borderColor} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}
                   >
-                    <feature.icon className={`w-6 h-6 ${feature.color}`} />
+                    <feature.icon className={`w-8 h-8 ${feature.color}`} />
                   </div>
-                  <CardTitle className="text-xl font-semibold text-gray-900 dark:text-white">
+
+                  {/* Content */}
+                  <h3 className="text-xl font-bold text-white mb-4 group-hover:text-emerald-300 transition-colors">
                     {feature.title}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                  </h3>
+                  <p className="text-gray-300 leading-relaxed">
                     {feature.description}
                   </p>
-                </CardContent>
-              </Card>
+
+                  {/* Hover Arrow */}
+                  <div className="mt-6 opacity-0 group-hover:opacity-100 transform translate-x-0 group-hover:translate-x-2 transition-all duration-300">
+                    <span
+                      className={`text-sm font-medium ${feature.color} flex items-center`}
+                    >
+                      Learn more
+                      <svg
+                        className="w-4 h-4 ml-2"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 5l7 7-7 7"
+                        />
+                      </svg>
+                    </span>
+                  </div>
+                </div>
+              </div>
             </motion.div>
           ))}
         </div>
 
-        {/* Additional Features Grid */}
+        {/* CTA Section */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.8 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
           viewport={{ once: true }}
-          className="mt-20 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
+          className="text-center mt-20"
         >
-          <div>
-            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-              Advanced Geospatial Analysis
+          <div className="bg-gradient-to-r from-emerald-500/10 to-blue-500/10 backdrop-blur-sm rounded-2xl border border-white/10 p-12">
+            <h3 className="text-2xl font-bold text-white mb-4">
+              Ready to revolutionize hydrogen infrastructure?
             </h3>
-            <div className="space-y-4">
-              <div className="flex items-start space-x-3">
-                <div className="w-6 h-6 rounded-full bg-primary-500 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <span className="text-white text-xs font-bold">✓</span>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-900 dark:text-white">
-                    Multi-layer Mapping
-                  </h4>
-                  <p className="text-gray-600 dark:text-gray-300">
-                    Overlay multiple data layers including renewable sources,
-                    demand centers, and existing infrastructure.
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-start space-x-3">
-                <div className="w-6 h-6 rounded-full bg-primary-500 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <span className="text-white text-xs font-bold">✓</span>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-900 dark:text-white">
-                    Route Optimization
-                  </h4>
-                  <p className="text-gray-600 dark:text-gray-300">
-                    Find optimal pipeline routes considering terrain,
-                    regulations, and cost factors.
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-start space-x-3">
-                <div className="w-6 h-6 rounded-full bg-primary-500 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <span className="text-white text-xs font-bold">✓</span>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-900 dark:text-white">
-                    Proximity Analysis
-                  </h4>
-                  <p className="text-gray-600 dark:text-gray-300">
-                    Analyze relationships between renewable sources, production
-                    facilities, and demand centers.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="relative">
-            <div className="aspect-square rounded-2xl bg-gradient-to-br from-primary-500 to-secondary-500 p-1 shadow-2xl">
-              <div className="h-full w-full rounded-xl bg-white dark:bg-gray-900 p-8 flex items-center justify-center">
-                <div className="text-center">
-                  <Map className="w-16 h-16 text-primary-500 mx-auto mb-4" />
-                  <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                    Interactive Dashboard
-                  </h4>
-                  <p className="text-gray-600 dark:text-gray-300">
-                    Comprehensive view of your hydrogen infrastructure ecosystem
-                  </p>
-                </div>
-              </div>
-            </div>
+            <p className="text-gray-300 mb-8 max-w-2xl mx-auto">
+              Join leading organizations worldwide in building the future of
+              clean energy infrastructure.
+            </p>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-8 py-4 rounded-xl font-semibold hover:shadow-lg hover:shadow-emerald-500/25 transition-all duration-300"
+            >
+              Start Your Free Trial
+            </motion.button>
           </div>
         </motion.div>
       </div>

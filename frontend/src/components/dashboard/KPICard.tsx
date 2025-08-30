@@ -29,7 +29,7 @@ export const KPICard: React.FC<KPICardProps> = ({
 }) => {
   const colorClasses = {
     green:
-      "bg-primary-50 text-primary-600 dark:bg-primary-900/20 dark:text-primary-400",
+      "bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400",
     blue: "bg-secondary-50 text-secondary-600 dark:bg-secondary-900/20 dark:text-secondary-400",
     amber:
       "bg-accent-50 text-accent-600 dark:bg-accent-900/20 dark:text-accent-400",
@@ -56,11 +56,11 @@ export const KPICard: React.FC<KPICardProps> = ({
     <Card hover className="overflow-hidden">
       <div className="flex items-center justify-between">
         <div className="flex-1">
-          <p className="text-sm font-medium text-text-secondary-light dark:text-text-secondary-dark mb-1">
+          <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">
             {title}
           </p>
           <motion.p
-            className="text-2xl font-bold text-text-primary-light dark:text-text-primary-dark"
+            className="text-2xl font-bold text-gray-900 dark:text-white"
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.3 }}
@@ -78,14 +78,14 @@ export const KPICard: React.FC<KPICardProps> = ({
                 className={cn(
                   "text-xs font-medium",
                   change.type === "increase"
-                    ? "text-green-600 dark:text-green-400"
+                    ? "text-emerald-700 dark:text-emerald-300"
                     : "text-red-600 dark:text-red-400"
                 )}
               >
                 {change.type === "increase" ? "+" : "-"}
                 {Math.abs(change.value)}%
               </span>
-              <span className="text-xs text-text-secondary-light dark:text-text-secondary-dark ml-1">
+              <span className="text-xs text-gray-600 dark:text-gray-400 ml-1">
                 vs {change.period}
               </span>
             </motion.div>

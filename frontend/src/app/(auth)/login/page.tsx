@@ -43,27 +43,27 @@ export default function LoginPage() {
     >
       <Card className="p-8">
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-text-primary-light dark:text-text-primary-dark mb-2">
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
             Welcome Back
           </h1>
-          <p className="text-text-secondary-light dark:text-text-secondary-dark">
-            Sign in to your HydrogenMapper account
+          <p className="text-gray-600 dark:text-gray-400">
+            Sign in to your GreenH2-Nexus account
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-sm font-medium text-text-primary-light dark:text-text-primary-dark mb-2">
+            <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
               Email Address
             </label>
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-text-secondary-light dark:text-text-secondary-dark" />
+              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-600 dark:text-gray-400" />
               <input
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleInputChange}
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-surface-light dark:bg-surface-dark text-text-primary-light dark:text-text-primary-dark focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-colors"
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-colors"
                 placeholder="Enter your email"
                 required
               />
@@ -71,24 +71,24 @@ export default function LoginPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-text-primary-light dark:text-text-primary-dark mb-2">
+            <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
               Password
             </label>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-text-secondary-light dark:text-text-secondary-dark" />
+              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-600 dark:text-gray-400" />
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
                 value={formData.password}
                 onChange={handleInputChange}
-                className="w-full pl-10 pr-12 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-surface-light dark:bg-surface-dark text-text-primary-light dark:text-text-primary-dark focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-colors"
+                className="w-full pl-10 pr-12 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-colors"
                 placeholder="Enter your password"
                 required
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-text-secondary-light dark:text-text-secondary-dark hover:text-text-primary-light dark:hover:text-text-primary-dark transition-colors"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600 dark:text-gray-400 hover:text-text-primary-light dark:hover:text-text-primary-dark transition-colors"
               >
                 {showPassword ? (
                   <EyeOff className="w-5 h-5" />
@@ -105,7 +105,7 @@ export default function LoginPage() {
                 type="checkbox"
                 className="w-4 h-4 text-emerald-500 border-gray-300 rounded focus:ring-emerald-500"
               />
-              <span className="ml-2 text-sm text-text-secondary-light dark:text-text-secondary-dark">
+              <span className="ml-2 text-sm text-gray-600 dark:text-gray-400">
                 Remember me
               </span>
             </label>
@@ -128,8 +128,8 @@ export default function LoginPage() {
         </form>
 
         <div className="mt-8 text-center">
-          <p className="text-text-secondary-light dark:text-text-secondary-dark">
-            Don't have an account?{" "}
+          <p className="text-gray-600 dark:text-gray-400">
+            Don&apos;t have an account?{" "}
             <Link
               href="/register"
               className="text-emerald-500 hover:text-emerald-600 font-medium transition-colors"

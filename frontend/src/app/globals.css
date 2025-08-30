@@ -1,18 +1,13 @@
 @import "tailwindcss";
 
+/* Leaflet CSS - Import before custom styles */
+@import "leaflet/dist/leaflet.css";
+
 /* Custom CSS variables and styles */
 
 /* 8-point grid system base */
 :root {
   --grid-unit: 8px;
-  --background-light: #F8FAFC;
-  --background-dark: #0F172A;
-  --surface-light: #FFFFFF;
-  --surface-dark: #1E293B;
-  --text-primary-light: #1E293B;
-  --text-primary-dark: #F8FAFC;
-  --text-secondary-light: #64748B;
-  --text-secondary-dark: #CBD5E1;
 }
 
 * {
@@ -28,15 +23,6 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
-  background-color: var(--background-light);
-  color: var(--text-primary-light);
-}
-
-/* Dark theme */
-.dark body {
-  background-color: var(--background-dark);
-  color: var(--text-primary-dark);
 }
 
 /* Custom scrollbar */
@@ -102,4 +88,321 @@ body {
 .grid-24 {
   display: grid;
   gap: calc(var(--grid-unit) * 3);
+}
+
+/* Lea
+flet Map Customizations */
+.leaflet-container {
+  font-family: inherit;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.leaflet-popup-content {
+  margin: 16px;
+  line-height: 1.5;
+}
+
+.leaflet-popup-content h3 {
+  margin: 0 0 8px 0;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.leaflet-popup-content p {
+  margin: 0;
+  color: #6b7280;
+}
+
+/* Dark theme adjustments for Leaflet controls */
+.dark .leaflet-control-container .leaflet-control {
+  background: rgba(31, 41, 55, 0.9);
+  border: 1px solid rgba(75, 85, 99, 0.5);
+}
+
+.dark .leaflet-control-container .leaflet-control a {
+  color: #f3f4f6;
+}
+
+.dark .leaflet-control-container .leaflet-control a:hover {
+  background: rgba(55, 65, 81, 0.8);
+  color: #ffffff;
+}
+
+/* Custom marker cluster styles */
+.marker-cluster-small {
+  background-color: rgba(59, 130, 246, 0.6);
+}
+
+.marker-cluster-small div {
+  background-color: rgba(59, 130, 246, 0.8);
+}
+
+.marker-cluster-medium {
+  background-color: rgba(16, 185, 129, 0.6);
+}
+
+.marker-cluster-medium div {
+  background-color: rgba(16, 185, 129, 0.8);
+}
+
+.marker-cluster-large {
+  background-color: rgba(239, 68, 68, 0.6);
+}
+
+.marker-cluster-large div {
+  background-color: rgba(239, 68, 68, 0.8);
+}
+
+/* Ensure map controls are properly styled */
+.custom-controls button {
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.custom-controls button:hover {
+  background: #f3f4f6;
+  border-color: #9ca3af;
+}
+
+.search-control input {
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  padding: 8px;
+  font-size: 14px;
+}
+
+.search-control input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+/* C
+hart and Badge Color Variables */
+:root {
+  --color-success-accent: #059669;
+  --color-success-foreground: #ffffff;
+  --color-success-soft: #d1fae5;
+  --color-warning-accent: #d97706;
+  --color-warning-foreground: #ffffff;
+  --color-warning-soft: #fef3c7;
+  --color-info-accent: #7c3aed;
+  --color-info-foreground: #ffffff;
+  --color-info-soft: #e0e7ff;
+  --color-destructive-accent: #dc2626;
+  --color-destructive-foreground: #ffffff;
+  --color-destructive-soft: #fee2e2;
+  --color-primary-accent: #1d4ed8;
+  --color-primary-soft: #dbeafe;
+  --color-green-500: #10b981;
+  --color-green-600: #059669;
+  --color-green-700: #047857;
+  --color-green-800: #065f46;
+  --color-green-100: #d1fae5;
+  --color-green-50: #ecfdf5;
+  --color-green-950: #022c22;
+  --color-blue-500: #3b82f6;
+  --color-blue-600: #2563eb;
+  --color-blue-700: #1d4ed8;
+  --color-blue-100: #dbeafe;
+  --color-blue-50: #eff6ff;
+  --color-blue-950: #172554;
+  --color-yellow-500: #eab308;
+  --color-yellow-600: #ca8a04;
+  --color-yellow-700: #a16207;
+  --color-yellow-100: #fef3c7;
+  --color-yellow-50: #fffbeb;
+  --color-yellow-950: #451a03;
+  --color-red-500: #ef4444;
+  --color-red-600: #dc2626;
+  --color-red-700: #b91c1c;
+  --color-red-100: #fee2e2;
+  --color-red-50: #fef2f2;
+  --color-red-950: #450a0a;
+  --color-violet-500: #8b5cf6;
+  --color-violet-600: #7c3aed;
+  --color-violet-700: #6d28d9;
+  --color-violet-100: #e0e7ff;
+  --color-violet-50: #f5f3ff;
+  --color-violet-950: #2e1065;
+  --color-amber-500: #f59e0b;
+  --color-purple-500: #a855f7;
+  --color-white: #ffffff;
+}
+
+.dark {
+  --color-success-soft: #022c22;
+  --color-warning-soft: #451a03;
+  --color-info-soft: #2e1065;
+  --color-destructive-soft: #450a0a;
+  --color-primary-soft: #172554;
+  --color-green-950: #d1fae5;
+  --color-blue-950: #dbeafe;
+  --color-yellow-950: #fef3c7;
+  --color-red-950: #fee2e2;
+  --color-violet-950: #e0e7ff;
+}
+
+/* Chart specific styles */
+.recharts-tooltip-wrapper {
+  z-index: 50;
+}
+
+/* Select dropdown z-index fix */
+[data-radix-popper-content-wrapper] {
+  z-index: 9999 !important;
+}
+
+[data-radix-select-content] {
+  z-index: 9999 !important;
+  position: relative !important;
+}
+
+/* Portal content positioning */
+[data-radix-portal] {
+  z-index: 9999 !important;
+}
+
+/* Card toolbar positioning */
+[data-slot="card-toolbar"] {
+  position: relative;
+  z-index: 10;
+}
+
+.recharts-active-dot {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+/* Enhanced card shadows */
+[data-slot="card"] {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.dark [data-slot="card"] {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Enhan
+ced Map Controls Theme Support */
+.leaflet-control-container .leaflet-control {
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.dark .leaflet-control-container .leaflet-control {
+  background: rgb(31, 41, 55);
+  border: 1px solid rgb(75, 85, 99);
+}
+
+.leaflet-control-container .leaflet-control a {
+  color: var(--foreground);
+  background: var(--background);
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.dark .leaflet-control-container .leaflet-control a {
+  color: rgb(243, 244, 246);
+  background: rgb(31, 41, 55);
+}
+
+.leaflet-control-container .leaflet-control a:hover {
+  background: var(--accent);
+  color: var(--accent-foreground);
+}
+
+.dark .leaflet-control-container .leaflet-control a:hover {
+  background: rgb(55, 65, 81);
+  color: rgb(255, 255, 255);
+}
+
+/* Map search suggestions */
+.search-suggestions {
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+}
+
+.dark .search-suggestions {
+  background: rgb(31, 41, 55);
+  border: 1px solid rgb(75, 85, 99);
+}
+
+.suggestion-item {
+  color: var(--foreground);
+  border-bottom: 1px solid var(--border);
+  transition: background-color 0.2s;
+}
+
+.dark .suggestion-item {
+  color: rgb(243, 244, 246);
+  border-bottom: 1px solid rgb(75, 85, 99);
+}
+
+.suggestion-item:hover {
+  background: var(--accent);
+}
+
+.dark .suggestion-item:hover {
+  background: rgb(55, 65, 81);
+}
+
+/* Leaflet popup theme support */
+.leaflet-popup-content-wrapper {
+  background: var(--background);
+  color: var(--foreground);
+  border: 1px solid var(--border);
+}
+
+.dark .leaflet-popup-content-wrapper {
+  background: rgb(31, 41, 55);
+  color: rgb(243, 244, 246);
+  border: 1px solid rgb(75, 85, 99);
+}
+
+.leaflet-popup-tip {
+  background: var(--background);
+  border: 1px solid var(--border);
+}
+
+.dark .leaflet-popup-tip {
+  background: rgb(31, 41, 55);
+  border: 1px solid rgb(75, 85, 99);
+}
+
+/* Chart responsiveness improvements */
+.recharts-responsive-container {
+  min-height: 200px;
+}
+
+@media (max-width: 768px) {
+  .recharts-responsive-container {
+    min-height: 250px;
+  }
+}
+
+/* Enhanced card grid for analytics */
+.analytics-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+@media (min-width: 1024px) {
+  .analytics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }

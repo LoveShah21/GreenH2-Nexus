@@ -67,7 +67,7 @@ export function StatsSection() {
                     {stat.label}
                   </div>
                   <div className="flex items-center justify-center text-sm">
-                    <span className="text-green-600 dark:text-green-400">
+                    <span className="text-emerald-700 dark:text-emerald-300">
                       {stat.change}
                     </span>
                     <span className="ml-1 text-gray-500 dark:text-gray-400">

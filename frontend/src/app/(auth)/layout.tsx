@@ -11,10 +11,10 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background-light via-primary-50/30 to-secondary-50/30 dark:from-background-dark dark:via-primary-900/20 dark:to-secondary-900/20 flex">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-emerald-50/30 to-teal-50/30 dark:from-gray-900 dark:via-emerald-900/20 dark:to-teal-900/20 flex">
       {/* Left Side - Branding */}
       <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary-500 to-secondary-500" />
+        <div className="absolute inset-0 bg-gradient-to-br from-emerald-500 to-teal-500" />
         <div className="absolute inset-0 bg-black/20" />
 
         <div className="relative z-10 flex flex-col justify-center px-12 text-white">
@@ -27,7 +27,7 @@ export default function AuthLayout({
               <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center mr-4">
                 <Zap className="w-8 h-8" />
               </div>
-              <span className="text-2xl font-bold">HydrogenMapper</span>
+              <span className="text-2xl font-bold">GreenH2-Nexus</span>
             </div>
 
             <h1 className="text-4xl font-bold mb-6">

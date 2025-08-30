@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState, useCallback, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Layers,
   Search,
+  Settings,
   X,
   Eye,
   EyeOff,
@@ -17,31 +18,7 @@ import {
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Badge } from "@/components/ui/Badge";
-
-// Dynamic import to prevent SSR issues with Leaflet
-import dynamic from "next/dynamic";
-import type L from "leaflet";
-
-const AdvancedMap = dynamic(
-  () =>
-    import("@/components/ui/interactive-map").then((mod) => mod.AdvancedMap),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="w-full h-full bg-gradient-to-br from-blue-50 to-green-50 dark:from-gray-800 dark:to-gray-900 relative overflow-hidden flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-16 h-16 mx-auto mb-4 animate-spin rounded-full border-4 border-blue-500 border-t-transparent"></div>
-          <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-            Loading Interactive Map
-          </h3>
-          <p className="text-gray-600 dark:text-gray-400">
-            Initializing hydrogen infrastructure mapping...
-          </p>
-        </div>
-      </div>
-    ),
-  }
-);
+import { AdvancedMap } from "@/components/ui/interactive-map";
 
 interface Facility {
   id: string;
@@ -161,85 +138,32 @@ const getTypeIcon = (type: string) => {
   }
 };
 
-// Extended marker interface for our specific use case
-interface ExtendedMarkerData {
-  id?: string | number;
-  position: [number, number];
-  color?: string;
-  size?: "small" | "medium" | "large";
-  icon?: L.Icon;
-  popup?: {
-    title: string;
-    content: string;
-    image?: string;
-  };
-  facilityData?: Facility;
-}
-
-export default function MappingPage() {
+export default function InteractiveMappingPage() {
   const [layers, setLayers] = useState<MapLayer[]>(initialLayers);
   const [selectedFacility, setSelectedFacility] = useState<Facility | null>(
     null
   );
   const [searchQuery, setSearchQuery] = useState("");
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [mapMarkers, setMapMarkers] = useState<ExtendedMarkerData[]>([]);
-  const [isClient, setIsClient] = useState(false);
-
-  // Fix hydration issues
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  // Memoize the helper functions to prevent unnecessary re-renders
-  // Note: These are kept for potential future use with actual map
-  const getLayerColorMemo = useCallback(
-    (facilityType: string) => {
-      const layer = layers.find(
-        (l) => l.id === facilityType + "s" || l.id === facilityType
-      );
-      return layer?.color || "gray";
-    },
-    [layers]
-  );
-
-  const isLayerVisibleMemo = useCallback(
-    (facilityType: string) => {
-      const layer = layers.find(
-        (l) => l.id === facilityType + "s" || l.id === facilityType
-      );
-      return layer?.visible ?? true;
-    },
-    [layers]
-  );
-
-  // Memoize filtered facilities to prevent unnecessary re-renders
-  const filteredFacilities = useMemo(
-    () =>
-      mockFacilities.filter(
-        (facility) =>
-          facility.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
-          isLayerVisibleMemo(facility.type)
-      ),
-    [searchQuery, isLayerVisibleMemo]
-  );
+  const [mapMarkers, setMapMarkers] = useState<any[]>([]);
 
   // Convert facilities to map markers
   useEffect(() => {
     const markers = mockFacilities
-      .filter((facility) => isLayerVisibleMemo(facility.type))
+      .filter((facility) => isLayerVisible(facility.type))
       .map((facility) => ({
         id: facility.id,
         position: [facility.location.lat, facility.location.lng] as [
           number,
           number
         ],
-        color: getLayerColorMemo(facility.type),
-        size: (facility.status === "operational"
-          ? "large"
-          : facility.status === "construction"
-          ? "medium"
-          : "small") as "small" | "medium" | "large",
+        color: getLayerColor(facility.type),
+        size:
+          facility.status === "operational"
+            ? "large"
+            : facility.status === "construction"
+            ? "medium"
+            : "small",
         popup: {
           title: facility.name,
           content: `
@@ -265,7 +189,7 @@ export default function MappingPage() {
       }));
 
     setMapMarkers(markers);
-  }, [layers, getLayerColorMemo, isLayerVisibleMemo]);
+  }, [layers]);
 
   const toggleLayer = (layerId: string) => {
     setLayers((prev) =>
@@ -273,6 +197,20 @@ export default function MappingPage() {
         layer.id === layerId ? { ...layer, visible: !layer.visible } : layer
       )
     );
+  };
+
+  const getLayerColor = (facilityType: string) => {
+    const layer = layers.find(
+      (l) => l.id === facilityType + "s" || l.id === facilityType
+    );
+    return layer?.color || "gray";
+  };
+
+  const isLayerVisible = (facilityType: string) => {
+    const layer = layers.find(
+      (l) => l.id === facilityType + "s" || l.id === facilityType
+    );
+    return layer?.visible ?? true;
   };
 
   const getImageForType = (type: string) => {
@@ -289,6 +227,12 @@ export default function MappingPage() {
     return images[type as keyof typeof images];
   };
 
+  const filteredFacilities = mockFacilities.filter(
+    (facility) =>
+      facility.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
+      isLayerVisible(facility.type)
+  );
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case "operational":
@@ -302,13 +246,13 @@ export default function MappingPage() {
     }
   };
 
-  const handleMarkerClick = (marker: ExtendedMarkerData) => {
+  const handleMarkerClick = (marker: any) => {
     if (marker.facilityData) {
       setSelectedFacility(marker.facilityData);
     }
   };
 
-  const handleMapClick = (latlng: { lat: number; lng: number }) => {
+  const handleMapClick = (latlng: any) => {
     console.log("Map clicked at:", latlng);
     // Could add functionality to add new facilities here
   };
@@ -352,7 +296,7 @@ export default function MappingPage() {
           <div className="flex items-center justify-between">
             {!sidebarCollapsed && (
               <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-                Infrastructure Map
+                Interactive H2 Map
               </h2>
             )}
             <Button
@@ -371,17 +315,13 @@ export default function MappingPage() {
             <div className="p-4 border-b border-gray-200 dark:border-gray-700">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                {isClient && (
-                  <Input
-                    key="facility-search"
-                    type="text"
-                    placeholder="Search facilities..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-9"
-                    autoComplete="off"
-                  />
-                )}
+                <Input
+                  type="text"
+                  placeholder="Search facilities..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-9"
+                />
               </div>
             </div>
 
