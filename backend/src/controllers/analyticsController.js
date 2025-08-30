@@ -314,14 +314,16 @@ class AnalyticsController {
         mutationRate,
         crossoverRate,
         constraints,
-        objectives
+        objectives,
+        geographicScope,
+        timeHorizon
       } = req.body;
 
       // Validate required parameters
-      if (!projectId || !constraints || !objectives) {
+      if (!projectId || !constraints || !objectives || !geographicScope || !timeHorizon) {
         return res.status(400).json({
           success: false,
-          error: 'Project ID, constraints, and objectives are required'
+          error: 'Project ID, constraints, objectives, geographicScope, and timeHorizon are required'
         });
       }
 
@@ -333,6 +335,8 @@ class AnalyticsController {
         crossoverRate,
         constraints,
         objectives,
+        geographicScope,
+        timeHorizon,
         userId: req.user.userId,
         startTime: Date.now()
       });
@@ -439,14 +443,16 @@ class AnalyticsController {
         criteria,
         constraints,
         algorithm,
-        parentScenarioId
+        parentScenarioId,
+        geographicScope,
+        timeHorizon
       } = req.body;
 
       // Validate required parameters
-      if (!name || !scenarioType || !projectId) {
+      if (!name || !scenarioType || !projectId || !geographicScope || !timeHorizon) {
         return res.status(400).json({
           success: false,
-          error: 'Name, scenario type, and project ID are required'
+          error: 'Name, scenario type, project ID, geographicScope, and timeHorizon are required'
         });
       }
 
@@ -459,6 +465,8 @@ class AnalyticsController {
         constraints,
         algorithm,
         parentScenarioId,
+        geographicScope,
+        timeHorizon,
         userId: req.user.userId
       });
 

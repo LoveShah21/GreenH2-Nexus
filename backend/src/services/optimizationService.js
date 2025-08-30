@@ -96,7 +96,9 @@ class OptimizationService {
       mutationRate = 0.1,
       crossoverRate = 0.8,
       constraints,
-      objectives
+      objectives,
+      geographicScope,
+      timeHorizon
     } = params;
 
     try {
@@ -154,6 +156,8 @@ class OptimizationService {
         description: 'Genetic algorithm optimization for infrastructure placement',
         scenarioType: 'network_optimization',
         projectId: projectId,
+        geographicScope,
+        timeHorizon,
         algorithm: {
           type: 'genetic_algorithm',
           parameters: {
@@ -338,7 +342,9 @@ class OptimizationService {
       constraints,
       algorithm,
       parentScenarioId = null,
-      userId
+      userId,
+      geographicScope,
+      timeHorizon
     } = params;
 
     try {
@@ -352,6 +358,8 @@ class OptimizationService {
         constraints,
         algorithm,
         parentScenarioId,
+        geographicScope,
+        timeHorizon,
         createdBy: userId
       });
 
@@ -449,6 +457,39 @@ class OptimizationService {
     return this.weightedSumMethod(alternatives, criteria, weights);
   }
 
+  normalizeDecisionMatrix(alternatives, criteria) {
+    const matrix = alternatives.map(alt => 
+      criteria.map(criterion => alt[criterion] || 0)
+    );
+    
+    const columnSums = criteria.map((_, colIndex) => 
+      Math.sqrt(matrix.reduce((sum, row) => sum + row[colIndex] * row[colIndex], 0))
+    );
+    
+    return matrix.map(row => 
+      row.map((value, colIndex) => value / columnSums[colIndex])
+    );
+  }
+
+  calculateWeightedMatrix(normalizedMatrix, weights) {
+    const weightValues = Object.values(weights);
+    return normalizedMatrix.map(row => 
+      row.map((value, colIndex) => value * weightValues[colIndex])
+    );
+  }
+
+  findIdealSolution(weightedMatrix, criteria) {
+    return criteria.map((_, colIndex) => 
+      Math.max(...weightedMatrix.map(row => row[colIndex]))
+    );
+  }
+
+  findNegativeIdealSolution(weightedMatrix, criteria) {
+    return criteria.map((_, colIndex) => 
+      Math.min(...weightedMatrix.map(row => row[colIndex]))
+    );
+  }
+
   /**
    * Helper Methods for Genetic Algorithm
    */
@@ -466,9 +507,46 @@ class OptimizationService {
   generateRandomIndividual(constraints) {
     // Generate random infrastructure configuration
     return {
-      locations: this.generateRandomLocations(constraints.geographicBounds),
-      capacities: this.generateRandomCapacities(constraints.capacityRange),
-      connections: this.generateRandomConnections(constraints.maxConnections)
+      capacity: this.generateRandomCapacity(constraints.capacity),
+      budget: this.generateRandomBudget(constraints.budget),
+      timeline: this.generateRandomTimeline(constraints.timeline),
+      environmental: this.generateRandomEnvironmental(constraints.environmental)
+    };
+  }
+
+  generateRandomCapacity(capacityConstraints) {
+    if (!capacityConstraints) {
+      return Math.random() * 1000 + 100; // Default range
+    }
+    const min = capacityConstraints.min || 100;
+    const max = capacityConstraints.max || 1000;
+    return Math.random() * (max - min) + min;
+  }
+
+  generateRandomBudget(budgetConstraint) {
+    if (!budgetConstraint) {
+      return Math.random() * 10000000 + 1000000; // Default range
+    }
+    return Math.random() * budgetConstraint * 0.8 + budgetConstraint * 0.2;
+  }
+
+  generateRandomTimeline(timelineConstraint) {
+    if (!timelineConstraint) {
+      return Math.random() * 36 + 12; // Default range 12-48 months
+    }
+    return Math.random() * timelineConstraint * 0.5 + timelineConstraint * 0.5;
+  }
+
+  generateRandomEnvironmental(envConstraints) {
+    if (!envConstraints) {
+      return {
+        carbonEmissions: Math.random() * 50000 + 10000,
+        waterUsage: Math.random() * 1000000 + 100000
+      };
+    }
+    return {
+      carbonEmissions: Math.random() * (envConstraints.maxCarbonEmissions || 50000) * 0.8 + (envConstraints.maxCarbonEmissions || 50000) * 0.2,
+      waterUsage: Math.random() * (envConstraints.maxWaterUsage || 1000000) * 0.8 + (envConstraints.maxWaterUsage || 1000000) * 0.2
     };
   }
 
@@ -486,25 +564,68 @@ class OptimizationService {
   async calculateFitness(individual, objectives, projectId) {
     let fitness = 0;
     
-    // Calculate economic fitness
-    if (objectives.economic) {
-      const costFitness = await this.calculateCostFitness(individual, projectId);
-      fitness += objectives.economic.weight * costFitness;
+    // Calculate cost fitness (minimize)
+    if (objectives.minimize && objectives.minimize.includes('cost')) {
+      const costFitness = this.calculateCostFitness(individual);
+      fitness += costFitness * 0.4; // Weight for cost
     }
     
-    // Calculate environmental fitness
-    if (objectives.environmental) {
-      const envFitness = await this.calculateEnvironmentalFitness(individual, projectId);
-      fitness += objectives.environmental.weight * envFitness;
+    // Calculate emissions fitness (minimize)
+    if (objectives.minimize && objectives.minimize.includes('emissions')) {
+      const emissionsFitness = this.calculateEmissionsFitness(individual);
+      fitness += emissionsFitness * 0.3; // Weight for emissions
     }
     
-    // Calculate technical fitness
-    if (objectives.technical) {
-      const techFitness = this.calculateTechnicalFitness(individual);
-      fitness += objectives.technical.weight * techFitness;
+    // Calculate efficiency fitness (maximize)
+    if (objectives.maximize && objectives.maximize.includes('efficiency')) {
+      const efficiencyFitness = this.calculateEfficiencyFitness(individual);
+      fitness += efficiencyFitness * 0.2; // Weight for efficiency
+    }
+    
+    // Calculate reliability fitness (maximize)
+    if (objectives.maximize && objectives.maximize.includes('reliability')) {
+      const reliabilityFitness = this.calculateReliabilityFitness(individual);
+      fitness += reliabilityFitness * 0.1; // Weight for reliability
     }
     
     return fitness;
+  }
+
+  calculateCostFitness(individual) {
+    // Lower cost is better (higher fitness)
+    if (!individual || typeof individual.budget !== 'number') return 0;
+    const maxBudget = 10000000;
+    const cost = individual.budget;
+    const fitness = Math.max(0, 1 - (cost / maxBudget));
+    return isNaN(fitness) ? 0 : fitness;
+  }
+
+  calculateEmissionsFitness(individual) {
+    // Lower emissions is better (higher fitness)
+    if (!individual || !individual.environmental || typeof individual.environmental.carbonEmissions !== 'number') return 0;
+    const maxEmissions = 50000;
+    const emissions = individual.environmental.carbonEmissions;
+    const fitness = Math.max(0, 1 - (emissions / maxEmissions));
+    return isNaN(fitness) ? 0 : fitness;
+  }
+
+  calculateEfficiencyFitness(individual) {
+    // Higher efficiency is better
+    if (!individual || typeof individual.capacity !== 'number' || typeof individual.budget !== 'number' || individual.budget === 0) return 0;
+    const capacity = individual.capacity;
+    const budget = individual.budget;
+    const efficiency = capacity / (budget / 1000000); // MW per million dollars
+    const fitness = Math.min(1, efficiency / 10); // Normalize to 0-1
+    return isNaN(fitness) ? 0 : fitness;
+  }
+
+  calculateReliabilityFitness(individual) {
+    // Higher reliability is better (based on capacity and timeline)
+    if (!individual || typeof individual.capacity !== 'number' || typeof individual.timeline !== 'number' || individual.timeline === 0) return 0;
+    const capacity = individual.capacity;
+    const timeline = individual.timeline;
+    const reliability = Math.min(1, capacity / 1000) * Math.min(1, 24 / timeline);
+    return isNaN(reliability) ? 0 : reliability;
   }
 
   selection(population, fitnessScores) {
@@ -513,17 +634,28 @@ class OptimizationService {
     const selected = [];
     
     for (let i = 0; i < population.length; i++) {
-      const tournament = [];
-      const tournamentFitness = [];
+      let winner = null;
+      let bestFitness = -Infinity;
       
       for (let j = 0; j < tournamentSize; j++) {
         const randomIndex = Math.floor(Math.random() * population.length);
-        tournament.push(population[randomIndex]);
-        tournamentFitness.push(fitnessScores[randomIndex]);
+        const contestant = population[randomIndex];
+        const contestantFitness = fitnessScores[randomIndex];
+        
+        if (contestant && typeof contestantFitness === 'number' && contestantFitness > bestFitness) {
+          bestFitness = contestantFitness;
+          winner = contestant;
+        }
       }
       
-      const winnerIndex = tournamentFitness.indexOf(Math.max(...tournamentFitness));
-      selected.push(tournament[winnerIndex]);
+      // If a winner is found, add it to the selected population
+      if (winner) {
+        selected.push(winner);
+      } else {
+        // Fallback: if no valid winner is found, add a random individual
+        const randomIndex = Math.floor(Math.random() * population.length);
+        selected.push(population[randomIndex]);
+      }
     }
     
     return selected;
@@ -549,21 +681,28 @@ class OptimizationService {
 
   performCrossover(parent1, parent2) {
     // Single-point crossover
-    const crossoverPoint = Math.floor(Math.random() * Object.keys(parent1).length);
-    const keys = Object.keys(parent1);
+    const child1 = { ...parent1 };
+    const child2 = { ...parent2 };
     
-    const child1 = {};
-    const child2 = {};
+    // Crossover capacity
+    if (Math.random() < 0.5) {
+      [child1.capacity, child2.capacity] = [child2.capacity, child1.capacity];
+    }
     
-    keys.forEach((key, index) => {
-      if (index < crossoverPoint) {
-        child1[key] = parent1[key];
-        child2[key] = parent2[key];
-      } else {
-        child1[key] = parent2[key];
-        child2[key] = parent1[key];
-      }
-    });
+    // Crossover budget
+    if (Math.random() < 0.5) {
+      [child1.budget, child2.budget] = [child2.budget, child1.budget];
+    }
+    
+    // Crossover timeline
+    if (Math.random() < 0.5) {
+      [child1.timeline, child2.timeline] = [child2.timeline, child1.timeline];
+    }
+    
+    // Crossover environmental factors
+    if (Math.random() < 0.5) {
+      [child1.environmental, child2.environmental] = [child2.environmental, child1.environmental];
+    }
     
     return [child1, child2];
   }
@@ -581,12 +720,14 @@ class OptimizationService {
     const mutated = { ...individual };
     const mutationType = Math.random();
     
-    if (mutationType < 0.33) {
-      mutated.locations = this.generateRandomLocations(constraints.geographicBounds);
-    } else if (mutationType < 0.66) {
-      mutated.capacities = this.generateRandomCapacities(constraints.capacityRange);
+    if (mutationType < 0.25) {
+      mutated.capacity = this.generateRandomCapacity(constraints.capacity);
+    } else if (mutationType < 0.5) {
+      mutated.budget = this.generateRandomBudget(constraints.budget);
+    } else if (mutationType < 0.75) {
+      mutated.timeline = this.generateRandomTimeline(constraints.timeline);
     } else {
-      mutated.connections = this.generateRandomConnections(constraints.maxConnections);
+      mutated.environmental = this.generateRandomEnvironmental(constraints.environmental);
     }
     
     return mutated;
@@ -606,6 +747,15 @@ class OptimizationService {
     return distances.length > 0 ? distances.reduce((a, b) => a + b, 0) / distances.length : 0;
   }
 
+  calculateIndividualDistance(ind1, ind2) {
+    // Calculate Euclidean distance between two individuals
+    const capacityDiff = Math.abs(ind1.capacity - ind2.capacity) / 1000;
+    const budgetDiff = Math.abs(ind1.budget - ind2.budget) / 10000000;
+    const timelineDiff = Math.abs(ind1.timeline - ind2.timeline) / 36;
+    
+    return Math.sqrt(capacityDiff * capacityDiff + budgetDiff * budgetDiff + timelineDiff * timelineDiff);
+  }
+
   checkConvergence(history) {
     if (history.length < 5) return false;
     
@@ -615,13 +765,23 @@ class OptimizationService {
     return variance < 0.001; // Convergence threshold
   }
 
+  calculateVariance(values) {
+    const mean = values.reduce((a, b) => a + b, 0) / values.length;
+    const squaredDiffs = values.map(v => Math.pow(v - mean, 2));
+    return squaredDiffs.reduce((a, b) => a + b, 0) / values.length;
+  }
+
   calculateConvergenceRate(history) {
     if (history.length < 2) return 0;
     
     const initialFitness = history[0].bestFitness;
     const finalFitness = history[history.length - 1].bestFitness;
     
-    return (finalFitness - initialFitness) / initialFitness;
+    if (initialFitness === 0) {
+      return finalFitness > 0 ? Infinity : 0;
+    }
+    const rate = (finalFitness - initialFitness) / Math.abs(initialFitness);
+    return isNaN(rate) ? 0 : rate;
   }
 
   /**
@@ -686,40 +846,76 @@ class OptimizationService {
    */
   analyzeCapacityTrends(capacityData) {
     // Analyze historical capacity utilization trends
-    const trends = {
-      seasonal: {},
-      weekly: {},
-      daily: {}
+    if (!capacityData || capacityData.length === 0) {
+      return { efficiency: 0.8, trend: 'stable' };
+    }
+    
+    const avgUtilization = capacityData.reduce((sum, data) => 
+      sum + (data.capacityUtilization?.currentUtilization || 0), 0) / capacityData.length;
+    
+    const efficiency = Math.min(1, avgUtilization / 0.8); // Normalize to 0.8 as optimal
+    
+    return { 
+      efficiency, 
+      trend: efficiency > 0.7 ? 'improving' : efficiency < 0.5 ? 'declining' : 'stable' 
     };
-    
-    // Implementation would go here
-    
-    return trends;
   }
 
   calculateRequiredCapacity(demandForecast, trends) {
     // Calculate required capacity based on demand and trends
-    const requiredCapacity = {};
+    const baselineDemand = demandForecast.baseline || 1000;
+    const growthRate = demandForecast.growthRate || 0.05;
+    const seasonality = demandForecast.seasonality || 0.1;
     
-    // Implementation would go here
+    // Calculate capacity with growth and seasonality
+    let requiredCapacity = baselineDemand * (1 + growthRate) * (1 + seasonality);
+    
+    // Apply capacity trends if available
+    if (trends && trends.efficiency) {
+      requiredCapacity = requiredCapacity / trends.efficiency;
+    }
     
     return requiredCapacity;
   }
 
   optimizeCapacityAllocation(requiredCapacity, constraints, objectives) {
     // Optimize capacity allocation using linear programming
-    const allocation = {};
-    
-    // Implementation would go here
+    const allocation = {
+      totalCapacity: requiredCapacity,
+      distribution: {
+        electrolyzer: requiredCapacity * 0.6,
+        storage: requiredCapacity * 0.3,
+        distribution: requiredCapacity * 0.1
+      },
+      timeline: constraints?.timeline || 24,
+      cost: requiredCapacity * 1000 // Simplified cost calculation
+    };
     
     return allocation;
   }
 
   generateCapacityScenarios(capacityPlan, demandForecast) {
     // Generate multiple capacity scenarios
-    const scenarios = [];
-    
-    // Implementation would go here
+    const scenarios = [
+      {
+        name: 'Conservative',
+        capacity: capacityPlan.totalCapacity * 0.8,
+        risk: 'low',
+        cost: capacityPlan.cost * 0.8
+      },
+      {
+        name: 'Baseline',
+        capacity: capacityPlan.totalCapacity,
+        risk: 'medium',
+        cost: capacityPlan.cost
+      },
+      {
+        name: 'Aggressive',
+        capacity: capacityPlan.totalCapacity * 1.2,
+        risk: 'high',
+        cost: capacityPlan.cost * 1.2
+      }
+    ];
     
     return scenarios;
   }
@@ -744,26 +940,7 @@ class OptimizationService {
     return R * c;
   }
 
-  calculateVariance(values) {
-    const mean = values.reduce((a, b) => a + b, 0) / values.length;
-    const squaredDiffs = values.map(value => Math.pow(value - mean, 2));
-    return squaredDiffs.reduce((a, b) => a + b, 0) / values.length;
-  }
-
-  generateRandomLocations(bounds) {
-    return {
-      lat: bounds.swLat + Math.random() * (bounds.neLat - bounds.swLat),
-      lng: bounds.swLng + Math.random() * (bounds.neLng - bounds.swLng)
-    };
-  }
-
-  generateRandomCapacities(range) {
-    return range.min + Math.random() * (range.max - range.min);
-  }
-
-  generateRandomConnections(maxConnections) {
-    return Math.floor(Math.random() * maxConnections);
-  }
+  // Removed duplicate and unused methods
 
   calculateInfrastructureCost(infrastructure, costData, factors) {
     // Calculate infrastructure cost based on factors
@@ -783,23 +960,7 @@ class OptimizationService {
     return totalCost;
   }
 
-  calculateIndividualDistance(individual1, individual2) {
-    // Calculate distance between two individuals
-    let distance = 0;
-    
-    // Compare locations
-    const loc1 = individual1.locations;
-    const loc2 = individual2.locations;
-    distance += this.calculateDistance([loc1.lat, loc1.lng], [loc2.lat, loc2.lng]);
-    
-    // Compare capacities
-    distance += Math.abs(individual1.capacities - individual2.capacities);
-    
-    // Compare connections
-    distance += Math.abs(individual1.connections - individual2.connections);
-    
-    return distance;
-  }
+  // Removed old calculateIndividualDistance method - replaced with new implementation above
 
   // Additional helper methods for MCDA
   normalizeDecisionMatrix(alternatives, criteria) {
