@@ -76,7 +76,7 @@ export default function ProjectsPage() {
 
   const statusColors = {
     Operational:
-      "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400",
+      "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400",
     Construction:
       "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400",
     Planning:
@@ -101,10 +101,10 @@ export default function ProjectsPage() {
       <FadeIn>
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-text-primary-light dark:text-text-primary-dark">
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
               Project Management
             </h1>
-            <p className="text-text-secondary-light dark:text-text-secondary-dark mt-2">
+            <p className="text-gray-600 dark:text-gray-400 mt-2">
               Manage and monitor hydrogen infrastructure projects worldwide
             </p>
           </div>
@@ -123,7 +123,7 @@ export default function ProjectsPage() {
             <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
               <div className="flex flex-col sm:flex-row gap-4 flex-1">
                 <div className="relative flex-1 max-w-md">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-text-secondary-light dark:text-text-secondary-dark" />
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-600 dark:text-gray-400" />
                   <input
                     type="text"
                     placeholder="Search projects..."
@@ -172,7 +172,7 @@ export default function ProjectsPage() {
                     <CardTitle className="text-lg mb-2">
                       {project.name}
                     </CardTitle>
-                    <div className="flex items-center text-sm text-text-secondary-light dark:text-text-secondary-dark mb-2">
+                    <div className="flex items-center text-sm text-gray-600 dark:text-gray-400 mb-2">
                       <MapPin className="w-4 h-4 mr-1" />
                       {project.location}
                     </div>
@@ -192,34 +192,34 @@ export default function ProjectsPage() {
                   {/* Project Details */}
                   <div className="grid grid-cols-2 gap-4 text-sm">
                     <div>
-                      <div className="text-text-secondary-light dark:text-text-secondary-dark">
+                      <div className="text-gray-600 dark:text-gray-400">
                         Type
                       </div>
-                      <div className="font-medium text-text-primary-light dark:text-text-primary-dark">
+                      <div className="font-medium text-gray-900 dark:text-white">
                         {project.type}
                       </div>
                     </div>
                     <div>
-                      <div className="text-text-secondary-light dark:text-text-secondary-dark">
+                      <div className="text-gray-600 dark:text-gray-400">
                         Capacity
                       </div>
-                      <div className="font-medium text-text-primary-light dark:text-text-primary-dark">
+                      <div className="font-medium text-gray-900 dark:text-white">
                         {project.capacity}
                       </div>
                     </div>
                     <div>
-                      <div className="text-text-secondary-light dark:text-text-secondary-dark">
+                      <div className="text-gray-600 dark:text-gray-400">
                         Investment
                       </div>
-                      <div className="font-medium text-text-primary-light dark:text-text-primary-dark">
+                      <div className="font-medium text-gray-900 dark:text-white">
                         {project.investment}
                       </div>
                     </div>
                     <div>
-                      <div className="text-text-secondary-light dark:text-text-secondary-dark">
+                      <div className="text-gray-600 dark:text-gray-400">
                         Completion
                       </div>
-                      <div className="font-medium text-text-primary-light dark:text-text-primary-dark">
+                      <div className="font-medium text-gray-900 dark:text-white">
                         {project.completion}
                       </div>
                     </div>
@@ -228,10 +228,10 @@ export default function ProjectsPage() {
                   {/* Progress Bar */}
                   <div>
                     <div className="flex justify-between text-sm mb-2">
-                      <span className="text-text-secondary-light dark:text-text-secondary-dark">
+                      <span className="text-gray-600 dark:text-gray-400">
                         Progress
                       </span>
-                      <span className="font-medium text-text-primary-light dark:text-text-primary-dark">
+                      <span className="font-medium text-gray-900 dark:text-white">
                         {project.progress}%
                       </span>
                     </div>
@@ -247,7 +247,7 @@ export default function ProjectsPage() {
 
                   {/* Stakeholders */}
                   <div>
-                    <div className="text-sm text-text-secondary-light dark:text-text-secondary-dark mb-2">
+                    <div className="text-sm text-gray-600 dark:text-gray-400 mb-2">
                       Key Stakeholders
                     </div>
                     <div className="flex flex-wrap gap-1">
@@ -293,10 +293,10 @@ export default function ProjectsPage() {
         <FadeIn delay={0.3}>
           <Card className="text-center py-12">
             <Zap className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-text-primary-light dark:text-text-primary-dark mb-2">
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
               No projects found
             </h3>
-            <p className="text-text-secondary-light dark:text-text-secondary-dark mb-6">
+            <p className="text-gray-600 dark:text-gray-400 mb-6">
               {searchTerm || selectedStatus !== "all"
                 ? "Try adjusting your search or filter criteria."
                 : "Get started by creating your first hydrogen infrastructure project."}

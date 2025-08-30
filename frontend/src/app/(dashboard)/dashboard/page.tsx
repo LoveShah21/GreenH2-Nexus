@@ -17,6 +17,7 @@ import { KPICard } from "@/components/dashboard/KPICard";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/Card";
 import { FadeIn } from "@/components/animations/FadeIn";
 import { CountUp } from "@/components/animations/CountUp";
+import CapacityGrowthChart from "@/components/dashboard/CapacityGrowthChart";
 
 export default function DashboardPage() {
   const kpiData = [
@@ -95,15 +96,15 @@ export default function DashboardPage() {
       <FadeIn>
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-text-primary-light dark:text-text-primary-dark">
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
               Dashboard Overview
             </h1>
-            <p className="text-text-secondary-light dark:text-text-secondary-dark mt-2">
+            <p className="text-gray-600 dark:text-gray-400 mt-2">
               Monitor global hydrogen infrastructure development and performance
               metrics
             </p>
           </div>
-          <div className="flex items-center space-x-2 text-sm text-text-secondary-light dark:text-text-secondary-dark">
+          <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
             <Calendar className="w-4 h-4" />
             <span>Last updated: {new Date().toLocaleDateString()}</span>
           </div>
@@ -130,27 +131,7 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Capacity Trends Chart */}
         <FadeIn delay={0.3}>
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <TrendingUp className="w-5 h-5 mr-2 text-emerald-500" />
-                Capacity Growth Trends
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="h-64 flex items-center justify-center bg-gray-50 dark:bg-gray-800 rounded-lg">
-                <div className="text-center">
-                  <BarChart3 className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                  <p className="text-text-secondary-light dark:text-text-secondary-dark">
-                    Interactive chart will be rendered here
-                  </p>
-                  <p className="text-sm text-text-secondary-light dark:text-text-secondary-dark mt-2">
-                    Showing hydrogen production capacity over time
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          <CapacityGrowthChart />
         </FadeIn>
 
         {/* Regional Distribution */}
@@ -174,15 +155,15 @@ export default function DashboardPage() {
                   >
                     <div className="flex items-center">
                       <div className="w-3 h-3 bg-emerald-500 rounded-full mr-3"></div>
-                      <span className="font-medium text-text-primary-light dark:text-text-primary-dark">
+                      <span className="font-medium text-gray-900 dark:text-white">
                         {region.region}
                       </span>
                     </div>
                     <div className="text-right">
-                      <div className="text-sm font-semibold text-text-primary-light dark:text-text-primary-dark">
+                      <div className="text-sm font-semibold text-gray-900 dark:text-white">
                         {region.projects} projects
                       </div>
-                      <div className="text-xs text-text-secondary-light dark:text-text-secondary-dark">
+                      <div className="text-xs text-gray-600 dark:text-gray-400">
                         {region.capacity}
                       </div>
                     </div>
@@ -208,19 +189,19 @@ export default function DashboardPage() {
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-gray-200 dark:border-gray-700">
-                    <th className="text-left py-3 px-4 font-medium text-text-secondary-light dark:text-text-secondary-dark">
+                    <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-400">
                       Project Name
                     </th>
-                    <th className="text-left py-3 px-4 font-medium text-text-secondary-light dark:text-text-secondary-dark">
+                    <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-400">
                       Location
                     </th>
-                    <th className="text-left py-3 px-4 font-medium text-text-secondary-light dark:text-text-secondary-dark">
+                    <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-400">
                       Capacity
                     </th>
-                    <th className="text-left py-3 px-4 font-medium text-text-secondary-light dark:text-text-secondary-dark">
+                    <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-400">
                       Status
                     </th>
-                    <th className="text-left py-3 px-4 font-medium text-text-secondary-light dark:text-text-secondary-dark">
+                    <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-400">
                       Completion
                     </th>
                   </tr>
@@ -234,20 +215,20 @@ export default function DashboardPage() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.6 + index * 0.1 }}
                     >
-                      <td className="py-4 px-4 font-medium text-text-primary-light dark:text-text-primary-dark">
+                      <td className="py-4 px-4 font-medium text-gray-900 dark:text-white">
                         {project.name}
                       </td>
-                      <td className="py-4 px-4 text-text-secondary-light dark:text-text-secondary-dark">
+                      <td className="py-4 px-4 text-gray-600 dark:text-gray-400">
                         {project.location}
                       </td>
-                      <td className="py-4 px-4 text-text-secondary-light dark:text-text-secondary-dark">
+                      <td className="py-4 px-4 text-gray-600 dark:text-gray-400">
                         {project.capacity}
                       </td>
                       <td className="py-4 px-4">
                         <span
                           className={`px-2 py-1 rounded-full text-xs font-medium ${
                             project.status === "Operational"
-                              ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
+                              ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400"
                               : project.status === "Construction"
                               ? "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400"
                               : "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400"
@@ -256,7 +237,7 @@ export default function DashboardPage() {
                           {project.status}
                         </span>
                       </td>
-                      <td className="py-4 px-4 text-text-secondary-light dark:text-text-secondary-dark">
+                      <td className="py-4 px-4 text-gray-600 dark:text-gray-400">
                         {project.completion}
                       </td>
                     </motion.tr>

@@ -11,11 +11,11 @@ export default function NotFound() {
     <div className="min-h-screen flex items-center justify-center bg-background-light dark:bg-background-dark p-6">
       <Card className="max-w-md text-center">
         <MapPin className="w-16 h-16 text-emerald-500 mx-auto mb-4" />
-        <h1 className="text-2xl font-bold text-text-primary-light dark:text-text-primary-dark mb-2">
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
           Page Not Found
         </h1>
-        <p className="text-text-secondary-light dark:text-text-secondary-dark mb-6">
-          The page you're looking for doesn't exist or has been moved.
+        <p className="text-gray-600 dark:text-gray-400 mb-6">
+          The page you&apos;re looking for doesn&apos;t exist or has been moved.
         </p>
         <Link href="/">
           <Button className="w-full">

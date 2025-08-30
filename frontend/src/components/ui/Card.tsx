@@ -24,7 +24,7 @@ export const Card: React.FC<CardProps> = ({
   };
 
   const baseClasses =
-    "bg-surface-light dark:bg-surface-dark rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 transition-all duration-200";
+    "bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 transition-all duration-200";
 
   return (
     <motion.div
@@ -56,7 +56,7 @@ export const CardTitle: React.FC<{
 }> = ({ children, className }) => (
   <h3
     className={cn(
-      "text-lg font-semibold text-text-primary-light dark:text-text-primary-dark",
+      "text-lg font-semibold text-gray-900 dark:text-white",
       className
     )}
   >
@@ -68,12 +68,7 @@ export const CardContent: React.FC<{
   children: React.ReactNode;
   className?: string;
 }> = ({ children, className }) => (
-  <div
-    className={cn(
-      "text-text-secondary-light dark:text-text-secondary-dark",
-      className
-    )}
-  >
+  <div className={cn("text-gray-600 dark:text-gray-400", className)}>
     {children}
   </div>
 );

@@ -23,7 +23,7 @@ import { cn } from "@/lib/utils/cn";
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  { name: "Interactive Map", href: "/mapping", icon: Map },
+  { name: "Infrastructure Map", href: "/mapping", icon: Map },
   { name: "Analytics", href: "/analytics", icon: BarChart3 },
   { name: "Projects", href: "/projects", icon: FolderOpen },
   { name: "Infrastructure", href: "/infrastructure", icon: Zap },
@@ -39,7 +39,7 @@ export default function DashboardLayout({
   const pathname = usePathname();
 
   return (
-    <div className="min-h-screen bg-background-light dark:bg-background-dark">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
       {/* Mobile sidebar overlay */}
       <AnimatePresence>
         {sidebarOpen && (
@@ -57,7 +57,7 @@ export default function DashboardLayout({
               initial={{ x: -300 }}
               animate={{ x: 0 }}
               exit={{ x: -300 }}
-              className="absolute left-0 top-0 h-full w-80 bg-surface-light dark:bg-surface-dark shadow-xl"
+              className="absolute left-0 top-0 h-full w-80 bg-white dark:bg-gray-800 shadow-xl"
             >
               <Sidebar onClose={() => setSidebarOpen(false)} />
             </motion.div>
@@ -73,7 +73,7 @@ export default function DashboardLayout({
       {/* Main content */}
       <div className="lg:pl-80">
         {/* Header */}
-        <header className="sticky top-0 z-40 bg-surface-light/80 dark:bg-surface-dark/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-700">
+        <header className="sticky top-0 z-40 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-between px-6 py-4">
             <div className="flex items-center">
               <Button
@@ -87,11 +87,13 @@ export default function DashboardLayout({
 
               <div className="flex items-center space-x-4">
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-text-secondary-light dark:text-text-secondary-dark" />
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500 dark:text-gray-400" />
                   <input
+                    key="header-search"
                     type="text"
                     placeholder="Search projects, infrastructure..."
                     className="pl-10 pr-4 py-2 w-64 bg-gray-100 dark:bg-gray-800 border-0 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 transition-all"
+                    autoComplete="off"
                   />
                 </div>
               </div>
@@ -128,15 +130,15 @@ function Sidebar({ onClose }: { onClose?: () => void }) {
   const pathname = usePathname();
 
   return (
-    <div className="flex flex-col h-full bg-surface-light dark:bg-surface-dark border-r border-gray-200 dark:border-gray-700">
+    <div className="flex flex-col h-full bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700">
       {/* Logo */}
       <div className="flex items-center justify-between px-6 py-6">
         <div className="flex items-center space-x-3">
-          <div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-lg flex items-center justify-center">
+          <div className="w-8 h-8 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-lg flex items-center justify-center">
             <Zap className="w-5 h-5 text-white" />
           </div>
-          <span className="text-lg font-bold text-text-primary-light dark:text-text-primary-dark">
-            HydrogenMapper
+          <span className="text-lg font-bold text-gray-900 dark:text-white">
+            GreenH2-Nexus
           </span>
         </div>
 
@@ -164,8 +166,8 @@ function Sidebar({ onClose }: { onClose?: () => void }) {
                 className={cn(
                   "flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200",
                   isActive
-                    ? "bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400"
-                    : "text-text-secondary-light dark:text-text-secondary-dark hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-text-primary-light dark:hover:text-text-primary-dark"
+                    ? "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400"
+                    : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white"
                 )}
                 whileHover={{ x: isActive ? 0 : 4 }}
                 whileTap={{ scale: 0.98 }}
@@ -180,8 +182,8 @@ function Sidebar({ onClose }: { onClose?: () => void }) {
 
       {/* Footer */}
       <div className="p-4 border-t border-gray-200 dark:border-gray-700">
-        <div className="text-xs text-text-secondary-light dark:text-text-secondary-dark text-center">
-          © 2024 HydrogenMapper
+        <div className="text-xs text-gray-500 dark:text-gray-400 text-center">
+          © 2025 GreenH2-Nexus
           <br />
           Version 1.0.0
         </div>

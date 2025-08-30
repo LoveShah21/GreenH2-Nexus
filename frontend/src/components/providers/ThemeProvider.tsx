@@ -9,10 +9,12 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
   const { theme } = useThemeStore();
 
   useEffect(() => {
+    // Apply theme on client side after hydration
+    const root = document.documentElement;
     if (theme === "dark") {
-      document.documentElement.classList.add("dark");
+      root.classList.add("dark");
     } else {
-      document.documentElement.classList.remove("dark");
+      root.classList.remove("dark");
     }
   }, [theme]);
 
