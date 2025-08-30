@@ -18,7 +18,9 @@ import {
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Badge } from "@/components/ui/Badge";
-import { AdvancedMap } from "@/components/ui/interactive-map";
+import { IntegratedMap } from "@/components/ui/integrated-map";
+import { ZonePrediction, AreaAnalysisResponse } from "@/lib/api/ml-predictions";
+import { projectsApi } from "@/lib/api/projects";
 
 interface Facility {
   id: string;
@@ -146,10 +148,47 @@ export default function InteractiveMappingPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mapMarkers, setMapMarkers] = useState<any[]>([]);
+  const [currentPrediction, setCurrentPrediction] =
+    useState<ZonePrediction | null>(null);
+  const [currentAnalysis, setCurrentAnalysis] =
+    useState<AreaAnalysisResponse | null>(null);
+  const [facilities, setFacilities] = useState<Facility[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  // Load facilities from API
+  useEffect(() => {
+    const loadFacilities = async () => {
+      try {
+        setIsLoading(true);
+        const response = await projectsApi.getProjects({ limit: 100 });
+        // Convert projects to facilities format
+        const facilitiesData = response.data.map((project: any) => ({
+          id: project.id || project._id,
+          name: project.name,
+          type: project.type || "electrolyzer",
+          capacity: project.capacity || "Unknown",
+          status: project.status || "operational",
+          location: project.location || { lat: 51.505, lng: -0.09 },
+          description: project.description || "",
+        }));
+        setFacilities(facilitiesData);
+      } catch (error: any) {
+        console.error("Failed to load facilities:", error);
+        setError("Failed to load facilities. Using sample data.");
+        // Fallback to mock data if API fails
+        setFacilities(mockFacilities);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadFacilities();
+  }, []);
 
   // Convert facilities to map markers
   useEffect(() => {
-    const markers = mockFacilities
+    const markers = facilities
       .filter((facility) => isLayerVisible(facility.type))
       .map((facility) => ({
         id: facility.id,
@@ -189,7 +228,7 @@ export default function InteractiveMappingPage() {
       }));
 
     setMapMarkers(markers);
-  }, [layers]);
+  }, [facilities, layers]);
 
   const toggleLayer = (layerId: string) => {
     setLayers((prev) =>
@@ -227,7 +266,7 @@ export default function InteractiveMappingPage() {
     return images[type as keyof typeof images];
   };
 
-  const filteredFacilities = mockFacilities.filter(
+  const filteredFacilities = facilities.filter(
     (facility) =>
       facility.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
       isLayerVisible(facility.type)
@@ -252,9 +291,14 @@ export default function InteractiveMappingPage() {
     }
   };
 
-  const handleMapClick = (latlng: any) => {
-    console.log("Map clicked at:", latlng);
-    // Could add functionality to add new facilities here
+  const handleZonePrediction = (prediction: ZonePrediction) => {
+    setCurrentPrediction(prediction);
+    console.log("Zone prediction received:", prediction);
+  };
+
+  const handleAreaAnalysis = (analysis: AreaAnalysisResponse) => {
+    setCurrentAnalysis(analysis);
+    console.log("Area analysis received:", analysis);
   };
 
   // Sample polygons for hydrogen infrastructure zones
@@ -372,6 +416,106 @@ export default function InteractiveMappingPage() {
               </div>
             </div>
 
+            {/* Current Prediction Display */}
+            {currentPrediction && (
+              <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+                <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Latest Prediction
+                </h3>
+                <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-gray-600 dark:text-gray-400">
+                      Zone:
+                    </span>
+                    <Badge
+                      className={
+                        currentPrediction.zone === "green"
+                          ? "bg-green-500"
+                          : currentPrediction.zone === "yellow"
+                          ? "bg-yellow-500"
+                          : "bg-red-500"
+                      }
+                    >
+                      {currentPrediction.zone.toUpperCase()}
+                    </Badge>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-gray-600 dark:text-gray-400">
+                      Efficiency:
+                    </span>
+                    <span className="text-xs font-medium">
+                      {(currentPrediction.efficiency * 100).toFixed(1)}%
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-gray-600 dark:text-gray-400">
+                      Cost:
+                    </span>
+                    <span className="text-xs font-medium">
+                      ${currentPrediction.cost}/kg
+                    </span>
+                  </div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400">
+                    {currentPrediction.lat.toFixed(4)},{" "}
+                    {currentPrediction.lng.toFixed(4)}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Area Analysis Display */}
+            {currentAnalysis && (
+              <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+                <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Area Analysis Results
+                </h3>
+                <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg space-y-2">
+                  <div className="grid grid-cols-3 gap-2 text-center">
+                    <div>
+                      <div className="text-lg font-bold text-green-600">
+                        {currentAnalysis.zoneDistribution.green}
+                      </div>
+                      <div className="text-xs text-gray-600 dark:text-gray-400">
+                        Green
+                      </div>
+                    </div>
+                    <div>
+                      <div className="text-lg font-bold text-yellow-600">
+                        {currentAnalysis.zoneDistribution.yellow}
+                      </div>
+                      <div className="text-xs text-gray-600 dark:text-gray-400">
+                        Yellow
+                      </div>
+                    </div>
+                    <div>
+                      <div className="text-lg font-bold text-red-600">
+                        {currentAnalysis.zoneDistribution.red}
+                      </div>
+                      <div className="text-xs text-gray-600 dark:text-gray-400">
+                        Red
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-gray-600 dark:text-gray-400">
+                      Avg Efficiency:
+                    </span>
+                    <span className="text-xs font-medium">
+                      {(currentAnalysis.averageEfficiency * 100).toFixed(1)}%
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-gray-600 dark:text-gray-400">
+                      Avg Cost:
+                    </span>
+                    <span className="text-xs font-medium">
+                      ${currentAnalysis.averageCost.toFixed(2)}/kg
+                    </span>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* Facilities List */}
             <div className="flex-1 overflow-y-auto p-4">
               <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
@@ -418,20 +562,17 @@ export default function InteractiveMappingPage() {
 
       {/* Main Map Area */}
       <div className="flex-1 relative">
-        {/* Map Container */}
-        <AdvancedMap
+        {/* Integrated Map with Full Backend Integration */}
+        <IntegratedMap
           center={[51.505, -0.09]}
           zoom={11}
-          markers={mapMarkers}
-          polygons={hydrogenZones}
-          circles={coverageAreas}
-          onMarkerClick={handleMarkerClick}
-          onMapClick={handleMapClick}
-          enableClustering={true}
-          enableSearch={true}
-          enableControls={true}
           style={{ height: "100%", width: "100%" }}
           className="z-0"
+          enableAreaAnalysis={true}
+          enableInfrastructureLayer={true}
+          enableAnalyticsLayer={true}
+          onZonePrediction={handleZonePrediction}
+          onAreaAnalysis={handleAreaAnalysis}
         />
       </div>
 

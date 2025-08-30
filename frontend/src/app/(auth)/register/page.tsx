@@ -7,6 +7,8 @@ import { Input } from "@/components/ui/Input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { ArrowRight, Mail, Lock, User, Building } from "lucide-react";
 import Link from "next/link";
+import { authApi } from "@/lib/api/auth";
+import { useRouter } from "next/navigation";
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -17,11 +19,49 @@ export default function RegisterPage() {
     password: "",
     confirmPassword: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle registration logic here
-    console.log("Registration data:", formData);
+    setError("");
+
+    // Validate passwords match
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
+    // Validate password length
+    if (formData.password.length < 8) {
+      setError("Password must be at least 8 characters long");
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      console.log("Registration data:", formData);
+
+      const response = await authApi.register({
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        organization: formData.company,
+        password: formData.password,
+      });
+
+      console.log("Registration successful:", response);
+
+      // Redirect to dashboard or login page
+      router.push("/dashboard");
+    } catch (error: any) {
+      console.error("Registration failed:", error);
+      setError(error.message || "Registration failed. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,6 +90,12 @@ export default function RegisterPage() {
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
+              {error && (
+                <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md text-sm">
+                  {error}
+                </div>
+              )}
+
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -135,9 +181,15 @@ export default function RegisterPage() {
                 />
               </div>
 
-              <Button type="submit" className="w-full group">
-                Create Account
-                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+              <Button
+                type="submit"
+                className="w-full group"
+                disabled={isLoading}
+              >
+                {isLoading ? "Creating Account..." : "Create Account"}
+                {!isLoading && (
+                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                )}
               </Button>
             </form>
 

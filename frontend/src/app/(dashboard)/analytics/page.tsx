@@ -14,8 +14,66 @@ import {
 import CapacityTrendsChart from "@/components/analytics/CapacityTrendsChart";
 import RegionalDistributionChart from "@/components/analytics/RegionalDistributionChart";
 import InvestmentFlowChart from "@/components/analytics/InvestmentFlowChart";
+import { useState, useEffect } from "react";
+import { analyticsApi } from "@/lib/api/analytics";
+import { projectsApi } from "@/lib/api/projects";
 
 export default function AnalyticsPage() {
+  const [analyticsData, setAnalyticsData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const loadAnalyticsData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        // Load analytics summary and projects for KPI calculation
+        const [analyticsSummary, projectsResponse] = await Promise.all([
+          analyticsApi.getAnalyticsSummary().catch(() => null),
+          projectsApi.getProjects({ limit: 1000 }).catch(() => ({ data: [] })),
+        ]);
+
+        setAnalyticsData({
+          summary: analyticsSummary,
+          projects: projectsResponse.data || [],
+        });
+      } catch (error: any) {
+        console.error("Failed to load analytics data:", error);
+        setError("Failed to load analytics data");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadAnalyticsData();
+  }, []);
+
+  // Calculate KPIs from real data
+  const kpiData = analyticsData
+    ? {
+        totalCapacity:
+          analyticsData.projects.reduce(
+            (sum: number, p: any) => sum + (p.capacity || 0),
+            0
+          ) / 1000, // Convert to GW
+        totalInvestment:
+          analyticsData.projects.reduce(
+            (sum: number, p: any) => sum + (p.investment?.total || 0),
+            0
+          ) / 1000000000, // Convert to billions
+        activeProjects: analyticsData.projects.filter(
+          (p: any) => p.status === "operational" || p.status === "construction"
+        ).length,
+        efficiencyScore: 87.3, // This would come from analytics API in real implementation
+      }
+    : {
+        totalCapacity: 0,
+        totalInvestment: 0,
+        activeProjects: 0,
+        efficiencyScore: 0,
+      };
   return (
     <div className="p-6 space-y-6">
       {/* Header */}
@@ -44,153 +102,187 @@ export default function AnalyticsPage() {
         </div>
       </motion.div>
 
+      {/* Loading State */}
+      {loading && (
+        <div className="flex items-center justify-center py-12">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500"></div>
+          <span className="ml-3 text-gray-600 dark:text-gray-400">
+            Loading analytics...
+          </span>
+        </div>
+      )}
+
+      {/* Error State */}
+      {error && (
+        <div className="text-center py-12">
+          <p className="text-red-600 dark:text-red-400 mb-4">{error}</p>
+          <Button onClick={() => window.location.reload()}>Retry</Button>
+        </div>
+      )}
+
       {/* KPI Cards */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1 }}
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
-      >
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Total Capacity
-            </CardTitle>
-            <Zap className="h-4 w-4 text-primary-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">45.2 GW</div>
-            <p className="text-xs text-emerald-700 dark:text-emerald-300">
-              +18% from last quarter
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Investment Flow
-            </CardTitle>
-            <DollarSign className="h-4 w-4 text-secondary-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">$124.5B</div>
-            <p className="text-xs text-emerald-700 dark:text-emerald-300">
-              +25% from last quarter
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Active Projects
-            </CardTitle>
-            <MapPin className="h-4 w-4 text-accent-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">1,247</div>
-            <p className="text-xs text-emerald-700 dark:text-emerald-300">
-              +12% from last quarter
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Efficiency Score
-            </CardTitle>
-            <TrendingUp className="h-4 w-4 text-emerald-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">87.3%</div>
-            <p className="text-xs text-emerald-700 dark:text-emerald-300">
-              +5.2% from last quarter
-            </p>
-          </CardContent>
-        </Card>
-      </motion.div>
-      {/* Advanced Capacity Trends Chart */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
-      >
-        <CapacityTrendsChart />
-      </motion.div>
-
-      {/* Additional Charts Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {!loading && !error && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
+          transition={{ delay: 0.1 }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
         >
-          <RegionalDistributionChart />
-        </motion.div>
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">
+                Total Capacity
+              </CardTitle>
+              <Zap className="h-4 w-4 text-primary-500" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">
+                {kpiData.totalCapacity.toFixed(1)} GW
+              </div>
+              <p className="text-xs text-emerald-700 dark:text-emerald-300">
+                +18% from last quarter
+              </p>
+            </CardContent>
+          </Card>
 
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">
+                Investment Flow
+              </CardTitle>
+              <DollarSign className="h-4 w-4 text-secondary-500" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">
+                ${kpiData.totalInvestment.toFixed(1)}B
+              </div>
+              <p className="text-xs text-emerald-700 dark:text-emerald-300">
+                +25% from last quarter
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">
+                Active Projects
+              </CardTitle>
+              <MapPin className="h-4 w-4 text-accent-500" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{kpiData.activeProjects}</div>
+              <p className="text-xs text-emerald-700 dark:text-emerald-300">
+                +12% from last quarter
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">
+                Efficiency Score
+              </CardTitle>
+              <TrendingUp className="h-4 w-4 text-emerald-500" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">
+                {kpiData.efficiencyScore}%
+              </div>
+              <p className="text-xs text-emerald-700 dark:text-emerald-300">
+                +5.2% from last quarter
+              </p>
+            </CardContent>
+          </Card>
+        </motion.div>
+      )}
+      {/* Charts Section */}
+      {!loading && !error && (
+        <>
+          {/* Advanced Capacity Trends Chart */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+          >
+            <CapacityTrendsChart />
+          </motion.div>
+
+          {/* Additional Charts Section */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+            >
+              <RegionalDistributionChart />
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+            >
+              <InvestmentFlowChart />
+            </motion.div>
+          </div>
+        </>
+      )}
+
+      {/* Site Suitability Analysis */}
+      {!loading && !error && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
         >
-          <InvestmentFlowChart />
+          <Card>
+            <CardHeader>
+              <CardTitle>Site Suitability Analysis</CardTitle>
+              <p className="text-sm text-gray-600 dark:text-gray-300">
+                AI-powered analysis for optimal hydrogen infrastructure
+                placement
+              </p>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-primary-100 dark:bg-primary-900/30 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <Zap className="w-8 h-8 text-primary-500" />
+                  </div>
+                  <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
+                    Renewable Potential
+                  </h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">
+                    Solar and wind resource assessment for production sites
+                  </p>
+                </div>
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-secondary-100 dark:bg-secondary-900/30 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <MapPin className="w-8 h-8 text-secondary-500" />
+                  </div>
+                  <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
+                    Location Optimization
+                  </h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">
+                    Strategic placement considering demand and logistics
+                  </p>
+                </div>
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-accent-100 dark:bg-accent-900/30 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <DollarSign className="w-8 h-8 text-accent-500" />
+                  </div>
+                  <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
+                    Cost Optimization
+                  </h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">
+                    Economic analysis and investment optimization
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </motion.div>
-      </div>
-
-      {/* Site Suitability Analysis */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4 }}
-      >
-        <Card>
-          <CardHeader>
-            <CardTitle>Site Suitability Analysis</CardTitle>
-            <p className="text-sm text-gray-600 dark:text-gray-300">
-              AI-powered analysis for optimal hydrogen infrastructure placement
-            </p>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="text-center">
-                <div className="w-16 h-16 bg-primary-100 dark:bg-primary-900/30 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <Zap className="w-8 h-8 text-primary-500" />
-                </div>
-                <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
-                  Renewable Potential
-                </h3>
-                <p className="text-sm text-gray-600 dark:text-gray-300">
-                  Solar and wind resource assessment for production sites
-                </p>
-              </div>
-              <div className="text-center">
-                <div className="w-16 h-16 bg-secondary-100 dark:bg-secondary-900/30 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <MapPin className="w-8 h-8 text-secondary-500" />
-                </div>
-                <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
-                  Location Optimization
-                </h3>
-                <p className="text-sm text-gray-600 dark:text-gray-300">
-                  Strategic placement considering demand and logistics
-                </p>
-              </div>
-              <div className="text-center">
-                <div className="w-16 h-16 bg-accent-100 dark:bg-accent-900/30 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <DollarSign className="w-8 h-8 text-accent-500" />
-                </div>
-                <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
-                  Cost Optimization
-                </h3>
-                <p className="text-sm text-gray-600 dark:text-gray-300">
-                  Economic analysis and investment optimization
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </motion.div>
+      )}
     </div>
   );
 }

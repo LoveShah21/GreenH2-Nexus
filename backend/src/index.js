@@ -22,6 +22,7 @@ const infrastructureRoutes = require('./routes/infrastructure');
 const renewableSourceRoutes = require('./routes/renewableSources');
 const analyticsRoutes = require('./routes/analytics');
 const recommendationRoutes = require('./routes/recommendations');
+const mlPredictionRoutes = require('./routes/ml-predictions');
 
 // Import services
 const { logger } = require('./utils/logger');
@@ -43,11 +44,14 @@ class App {
   configureMiddleware() {
     // Security middleware
     this.app.use(helmet());
-    
+
     // CORS configuration
     this.app.use(cors({
       origin: process.env.CORS_ORIGIN || "http://localhost:3000",
-      credentials: true
+      credentials: true,
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+      allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+      optionsSuccessStatus: 200
     }));
 
     // Rate limiting
@@ -110,6 +114,7 @@ class App {
     this.app.use('/api/renewable-sources', authMiddleware, renewableSourceRoutes);
     this.app.use('/api/analytics', authMiddleware, analyticsRoutes);
     this.app.use('/api/recommendations', authMiddleware, recommendationRoutes);
+    this.app.use('/api/ml-predictions', mlPredictionRoutes);
 
     // 404 handler
     this.app.use('*', (req, res) => {
@@ -122,7 +127,7 @@ class App {
     // Global error handler
     this.app.use((error, req, res, next) => {
       logger.error('Global error handler:', error);
-      
+
       res.status(error.statusCode || 500).json({
         success: false,
         error: error.message || 'Internal server error',

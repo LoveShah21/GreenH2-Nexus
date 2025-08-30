@@ -6,82 +6,94 @@ import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { Factory, Fuel, Truck, Zap, Plus, Filter, Search } from "lucide-react";
 import { Input } from "@/components/ui/Input";
-
-const infrastructureTypes = [
-  {
-    id: "production",
-    name: "Production Plants",
-    icon: Factory,
-    count: 156,
-    color: "bg-primary-500",
-    bgColor: "bg-primary-50 dark:bg-primary-900/20",
-  },
-  {
-    id: "storage",
-    name: "Storage Facilities",
-    icon: Fuel,
-    count: 89,
-    color: "bg-secondary-500",
-    bgColor: "bg-secondary-50 dark:bg-secondary-900/20",
-  },
-  {
-    id: "distribution",
-    name: "Distribution Hubs",
-    icon: Truck,
-    count: 234,
-    color: "bg-accent-500",
-    bgColor: "bg-accent-50 dark:bg-accent-900/20",
-  },
-  {
-    id: "renewable",
-    name: "Renewable Sources",
-    icon: Zap,
-    count: 412,
-    color: "bg-emerald-500",
-    bgColor: "bg-emerald-50 dark:bg-emerald-900/20",
-  },
-];
-
-const infrastructureItems = [
-  {
-    id: 1,
-    name: "Hamburg Green Hydrogen Plant",
-    type: "Production",
-    capacity: "100 MW",
-    status: "Operational",
-    location: "Hamburg, Germany",
-    commissioned: "2023-06-15",
-  },
-  {
-    id: 2,
-    name: "Rotterdam Storage Facility",
-    type: "Storage",
-    capacity: "50,000 kg",
-    status: "Under Construction",
-    location: "Rotterdam, Netherlands",
-    commissioned: "2024-03-20",
-  },
-  {
-    id: 3,
-    name: "California Solar-H2 Complex",
-    type: "Production",
-    capacity: "250 MW",
-    status: "Planning",
-    location: "California, USA",
-    commissioned: "2025-01-10",
-  },
-  {
-    id: 4,
-    name: "Nordic Distribution Hub",
-    type: "Distribution",
-    capacity: "200 trucks/day",
-    status: "Operational",
-    location: "Oslo, Norway",
-    commissioned: "2022-11-30",
-  },
-];
+import { useState, useEffect } from "react";
+import { infrastructureApi } from "@/lib/api/infrastructure";
+import { Infrastructure } from "@/types/infrastructure";
 
 export default function InfrastructurePage() {
+  const [infrastructure, setInfrastructure] = useState<Infrastructure[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    const loadInfrastructure = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const data = await infrastructureApi.getInfrastructure();
+        setInfrastructure(data || []);
+      } catch (error: any) {
+        console.error("Failed to load infrastructure:", error);
+        setError("Failed to load infrastructure data");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadInfrastructure();
+  }, []);
+
+  // Calculate infrastructure type counts from real data
+  const infrastructureTypes = [
+    {
+      id: "production_plant",
+      name: "Production Plants",
+      icon: Factory,
+      count: infrastructure.filter((i) => i.type === "production_plant").length,
+      color: "bg-primary-500",
+      bgColor: "bg-primary-50 dark:bg-primary-900/20",
+    },
+    {
+      id: "storage_facility",
+      name: "Storage Facilities",
+      icon: Fuel,
+      count: infrastructure.filter((i) => i.type === "storage_facility").length,
+      color: "bg-secondary-500",
+      bgColor: "bg-secondary-50 dark:bg-secondary-900/20",
+    },
+    {
+      id: "distribution_hub",
+      name: "Distribution Hubs",
+      icon: Truck,
+      count: infrastructure.filter((i) => i.type === "distribution_hub").length,
+      color: "bg-accent-500",
+      bgColor: "bg-accent-50 dark:bg-accent-900/20",
+    },
+    {
+      id: "renewable_source",
+      name: "Renewable Sources",
+      icon: Zap,
+      count: infrastructure.filter((i) => i.type === "renewable_source").length,
+      color: "bg-emerald-500",
+      bgColor: "bg-emerald-50 dark:bg-emerald-900/20",
+    },
+  ];
+
+  // Transform infrastructure for display
+  const infrastructureItems = infrastructure
+    .filter(
+      (item) =>
+        !searchTerm ||
+        item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.location.region.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .map((item) => ({
+      id: item.id,
+      name: item.name,
+      type: item.type
+        .replace("_", " ")
+        .replace(/\b\w/g, (l) => l.toUpperCase()),
+      capacity: `${item.capacity} MW`,
+      status: item.status
+        .replace("_", " ")
+        .replace(/\b\w/g, (l) => l.toUpperCase()),
+      location: `${item.location.region}`,
+      commissioned: item.createdAt
+        ? new Date(item.createdAt).toLocaleDateString()
+        : "Unknown",
+    }));
   return (
     <div className="p-6 space-y-6">
       {/* Header */}
@@ -151,7 +163,13 @@ export default function InfrastructurePage() {
         <div className="flex-1">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-            <Input placeholder="Search infrastructure..." className="pl-10" />
+            <Input
+              placeholder="Search infrastructure..."
+              className="pl-10"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              disabled={loading}
+            />
           </div>
         </div>
         <Button variant="outline">
@@ -160,61 +178,81 @@ export default function InfrastructurePage() {
         </Button>
       </motion.div>
 
+      {/* Loading State */}
+      {loading && (
+        <div className="flex items-center justify-center py-12">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500"></div>
+          <span className="ml-3 text-gray-600 dark:text-gray-400">
+            Loading infrastructure...
+          </span>
+        </div>
+      )}
+
+      {/* Error State */}
+      {error && (
+        <div className="text-center py-12">
+          <p className="text-red-600 dark:text-red-400 mb-4">{error}</p>
+          <Button onClick={() => window.location.reload()}>Retry</Button>
+        </div>
+      )}
+
       {/* Infrastructure List */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4 }}
-      >
-        <Card>
-          <CardHeader>
-            <CardTitle>Infrastructure Assets</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {infrastructureItems.map((item, index) => (
-                <motion.div
-                  key={item.id}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.5 + index * 0.1 }}
-                  className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
-                >
-                  <div className="flex items-center space-x-4">
-                    <div className="w-10 h-10 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
-                      <Factory className="w-5 h-5 text-primary-500" />
+      {!loading && !error && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+        >
+          <Card>
+            <CardHeader>
+              <CardTitle>Infrastructure Assets</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {infrastructureItems.map((item, index) => (
+                  <motion.div
+                    key={item.id}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.5 + index * 0.1 }}
+                    className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                  >
+                    <div className="flex items-center space-x-4">
+                      <div className="w-10 h-10 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                        <Factory className="w-5 h-5 text-primary-500" />
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-gray-900 dark:text-white">
+                          {item.name}
+                        </h4>
+                        <p className="text-sm text-gray-600 dark:text-gray-300">
+                          {item.location} • {item.capacity}
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <h4 className="font-semibold text-gray-900 dark:text-white">
-                        {item.name}
-                      </h4>
-                      <p className="text-sm text-gray-600 dark:text-gray-300">
-                        {item.location} • {item.capacity}
-                      </p>
+                    <div className="flex items-center space-x-4">
+                      <Badge
+                        variant={
+                          item.status === "Operational"
+                            ? "default"
+                            : item.status === "Under Construction"
+                            ? "secondary"
+                            : "outline"
+                        }
+                      >
+                        {item.status}
+                      </Badge>
+                      <Button variant="outline" size="sm">
+                        View Details
+                      </Button>
                     </div>
-                  </div>
-                  <div className="flex items-center space-x-4">
-                    <Badge
-                      variant={
-                        item.status === "Operational"
-                          ? "default"
-                          : item.status === "Under Construction"
-                          ? "secondary"
-                          : "outline"
-                      }
-                    >
-                      {item.status}
-                    </Badge>
-                    <Button variant="outline" size="sm">
-                      View Details
-                    </Button>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      </motion.div>
+                  </motion.div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
+      )}
     </div>
   );
 }

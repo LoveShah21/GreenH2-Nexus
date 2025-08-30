@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   Zap,
@@ -18,77 +18,149 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/Card";
 import { FadeIn } from "@/components/animations/FadeIn";
 import { CountUp } from "@/components/animations/CountUp";
 import CapacityGrowthChart from "@/components/dashboard/CapacityGrowthChart";
+import { projectsApi } from "@/lib/api/projects";
+import { analyticsApi } from "@/lib/api/analytics";
+import { Project } from "@/types/project";
 
 export default function DashboardPage() {
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [analyticsData, setAnalyticsData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const loadDashboardData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        // Load projects and analytics data
+        const [projectsResponse, analyticsSummary] = await Promise.all([
+          projectsApi.getProjects({ limit: 10 }),
+          analyticsApi.getAnalyticsSummary().catch(() => null), // Fallback if analytics fails
+        ]);
+
+        setProjects(projectsResponse.data || []);
+        setAnalyticsData(analyticsSummary);
+      } catch (error: any) {
+        console.error("Failed to load dashboard data:", error);
+        setError("Failed to load dashboard data");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadDashboardData();
+  }, []);
+
+  // Calculate KPI data from real projects
   const kpiData = [
     {
       title: "Total Projects",
-      value: 247,
+      value: projects.length,
       change: { value: 12, type: "increase" as const, period: "last month" },
       icon: Factory,
       color: "green" as const,
     },
     {
       title: "Operational Capacity",
-      value: "1.2 GW",
+      value: `${(
+        projects.reduce((sum, p) => sum + (p.capacity || 0), 0) / 1000
+      ).toFixed(1)} GW`,
       change: { value: 8, type: "increase" as const, period: "last quarter" },
       icon: Zap,
       color: "blue" as const,
     },
     {
       title: "Total Investment",
-      value: "$15.8B",
+      value: `$${(
+        projects.reduce((sum, p) => sum + (p.investment?.total || 0), 0) /
+        1000000000
+      ).toFixed(1)}B`,
       change: { value: 15, type: "increase" as const, period: "this year" },
       icon: DollarSign,
       color: "amber" as const,
     },
     {
       title: "CO₂ Reduction",
-      value: "850K tons/year",
+      value: `${(
+        projects.reduce(
+          (sum, p) => sum + (p.environmental?.co2ReductionPotential || 0),
+          0
+        ) / 1000
+      ).toFixed(0)}K tons/year`,
       change: { value: 22, type: "increase" as const, period: "projected" },
       icon: Leaf,
       color: "green" as const,
     },
   ];
 
-  const recentProjects = [
-    {
-      name: "North Sea Wind-H2 Hub",
-      location: "Netherlands",
-      capacity: "500 MW",
-      status: "Construction",
-      completion: "2025-Q2",
-    },
-    {
-      name: "Solar Valley Hydrogen Plant",
-      location: "California, USA",
-      capacity: "200 MW",
-      status: "Operational",
-      completion: "2024-Q1",
-    },
-    {
-      name: "Green Corridor Pipeline",
-      location: "Germany",
-      capacity: "300 km",
-      status: "Planning",
-      completion: "2026-Q4",
-    },
-    {
-      name: "Industrial H2 Storage",
-      location: "Japan",
-      capacity: "50 GWh",
-      status: "Construction",
-      completion: "2025-Q3",
-    },
-  ];
+  // Get recent projects from API data
+  const recentProjects = projects.slice(0, 4).map((project) => ({
+    name: project.name,
+    location: `${project.location?.region || "Unknown"}, ${
+      project.location?.country || "Unknown"
+    }`,
+    capacity: `${project.capacity} MW`,
+    status: project.status.charAt(0).toUpperCase() + project.status.slice(1),
+    completion: project.timeline?.expectedCompletion
+      ? new Date(project.timeline.expectedCompletion).toLocaleDateString(
+          "en-US",
+          { year: "numeric", month: "short" }
+        )
+      : "TBD",
+  }));
 
-  const regionalData = [
-    { region: "Europe", projects: 89, capacity: "4.2 GW" },
-    { region: "North America", projects: 67, capacity: "3.1 GW" },
-    { region: "Asia Pacific", projects: 54, capacity: "2.8 GW" },
-    { region: "Middle East", projects: 23, capacity: "1.5 GW" },
-    { region: "Others", projects: 14, capacity: "0.8 GW" },
-  ];
+  // Calculate regional distribution from projects
+  const regionalData = projects
+    .reduce((acc: any[], project) => {
+      const region = project.location?.region || "Others";
+      const existing = acc.find((r) => r.region === region);
+      if (existing) {
+        existing.projects += 1;
+        existing.capacity += project.capacity || 0;
+      } else {
+        acc.push({
+          region,
+          projects: 1,
+          capacity: project.capacity || 0,
+        });
+      }
+      return acc;
+    }, [])
+    .map((item) => ({
+      ...item,
+      capacity: `${(item.capacity / 1000).toFixed(1)} GW`,
+    }));
+
+  if (loading) {
+    return (
+      <div className="p-6 flex items-center justify-center min-h-[400px]">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-500 mx-auto mb-4"></div>
+          <p className="text-gray-600 dark:text-gray-400">
+            Loading dashboard data...
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="p-6 flex items-center justify-center min-h-[400px]">
+        <div className="text-center">
+          <p className="text-red-600 dark:text-red-400 mb-4">{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-4 py-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors"
+          >
+            Retry
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="p-6 space-y-8">

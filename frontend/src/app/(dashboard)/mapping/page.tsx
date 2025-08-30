@@ -17,6 +17,7 @@ import {
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Badge } from "@/components/ui/Badge";
+import { projectsApi } from "@/lib/api/projects";
 
 // Dynamic import to prevent SSR issues with Leaflet
 import dynamic from "next/dynamic";
@@ -185,10 +186,43 @@ export default function MappingPage() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mapMarkers, setMapMarkers] = useState<ExtendedMarkerData[]>([]);
   const [isClient, setIsClient] = useState(false);
+  const [facilities, setFacilities] = useState<Facility[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
 
   // Fix hydration issues
   useEffect(() => {
     setIsClient(true);
+  }, []);
+
+  // Load facilities from API
+  useEffect(() => {
+    const loadFacilities = async () => {
+      try {
+        setIsLoading(true);
+        const response = await projectsApi.getProjects({ limit: 100 });
+        // Convert projects to facilities format
+        const facilitiesData = response.data.map((project: any) => ({
+          id: project.id || project._id,
+          name: project.name,
+          type: project.type || "electrolyzer",
+          capacity: project.capacity || "Unknown",
+          status: project.status || "operational",
+          location: project.location || { lat: 51.505, lng: -0.09 },
+          description: project.description || "",
+        }));
+        setFacilities(facilitiesData);
+      } catch (error: any) {
+        console.error("Failed to load facilities:", error);
+        setError("Failed to load facilities. Using sample data.");
+        // Fallback to mock data if API fails
+        setFacilities(mockFacilities);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadFacilities();
   }, []);
 
   // Memoize the helper functions to prevent unnecessary re-renders
@@ -216,17 +250,17 @@ export default function MappingPage() {
   // Memoize filtered facilities to prevent unnecessary re-renders
   const filteredFacilities = useMemo(
     () =>
-      mockFacilities.filter(
+      facilities.filter(
         (facility) =>
           facility.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
           isLayerVisibleMemo(facility.type)
       ),
-    [searchQuery, isLayerVisibleMemo]
+    [facilities, searchQuery, isLayerVisibleMemo]
   );
 
   // Convert facilities to map markers
   useEffect(() => {
-    const markers = mockFacilities
+    const markers = facilities
       .filter((facility) => isLayerVisibleMemo(facility.type))
       .map((facility) => ({
         id: facility.id,
@@ -265,7 +299,7 @@ export default function MappingPage() {
       }));
 
     setMapMarkers(markers);
-  }, [layers, getLayerColorMemo, isLayerVisibleMemo]);
+  }, [facilities, layers, getLayerColorMemo, isLayerVisibleMemo]);
 
   const toggleLayer = (layerId: string) => {
     setLayers((prev) =>

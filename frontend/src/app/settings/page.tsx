@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   User,
@@ -25,21 +25,54 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { FadeIn } from "@/components/animations/FadeIn";
 import { useThemeStore } from "@/lib/stores/themeStore";
+import { authApi } from "@/lib/api/auth";
 
 export default function SettingsPage() {
   const { theme, toggleTheme } = useThemeStore();
   const [activeTab, setActiveTab] = useState("profile");
   const [showPassword, setShowPassword] = useState(false);
   const [saveStatus, setSaveStatus] = useState<string | null>(null);
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const [profileData, setProfileData] = useState({
-    firstName: "John",
-    lastName: "Doe",
-    email: "john.doe@example.com",
-    organization: "Green Energy Corp",
-    role: "Infrastructure Analyst",
-    phone: "+1 (555) 123-4567",
+    firstName: "",
+    lastName: "",
+    email: "",
+    organization: "",
+    role: "",
+    phone: "",
   });
+
+  // Load user profile on component mount
+  useEffect(() => {
+    const loadProfile = async () => {
+      try {
+        const user = await authApi.getCurrentUser();
+        setProfileData({
+          firstName: user.firstName || "",
+          lastName: user.lastName || "",
+          email: user.email || "",
+          organization: user.organization || "",
+          role: user.role || "",
+          phone: user.phone || "",
+        });
+      } catch (error) {
+        console.error("Failed to load profile:", error);
+        // Set default values if API fails
+        setProfileData({
+          firstName: "John",
+          lastName: "Doe",
+          email: "john.doe@example.com",
+          organization: "Green Energy Corp",
+          role: "Infrastructure Analyst",
+          phone: "+1 (555) 123-4567",
+        });
+      }
+    };
+
+    loadProfile();
+  }, []);
 
   const [securityData, setSecurityData] = useState({
     currentPassword: "",
@@ -72,12 +105,46 @@ export default function SettingsPage() {
 
   const handleSave = async () => {
     setSaveStatus("saving");
+    setError("");
+    setIsLoading(true);
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    try {
+      if (activeTab === "profile") {
+        // Update profile
+        await authApi.updateProfile({
+          firstName: profileData.firstName,
+          lastName: profileData.lastName,
+          organization: profileData.organization,
+        });
+      } else if (activeTab === "security") {
+        // Change password
+        if (securityData.newPassword && securityData.currentPassword) {
+          if (securityData.newPassword !== securityData.confirmPassword) {
+            throw new Error("New passwords do not match");
+          }
+          await authApi.changePassword({
+            currentPassword: securityData.currentPassword,
+            newPassword: securityData.newPassword,
+          });
+          // Clear password fields after successful change
+          setSecurityData((prev) => ({
+            ...prev,
+            currentPassword: "",
+            newPassword: "",
+            confirmPassword: "",
+          }));
+        }
+      }
 
-    setSaveStatus("saved");
-    setTimeout(() => setSaveStatus(null), 3000);
+      setSaveStatus("saved");
+      setTimeout(() => setSaveStatus(null), 3000);
+    } catch (error: any) {
+      console.error("Save failed:", error);
+      setError(error.message || "Failed to save settings. Please try again.");
+      setSaveStatus(null);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleInputChange = (
@@ -566,6 +633,12 @@ export default function SettingsPage() {
           <div className="lg:col-span-3">
             <FadeIn delay={0.2}>
               <Card className="p-6">
+                {error && (
+                  <div className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md text-sm">
+                    {error}
+                  </div>
+                )}
+
                 {activeTab === "profile" && renderProfileTab()}
                 {activeTab === "security" && renderSecurityTab()}
                 {activeTab === "notifications" && renderNotificationsTab()}

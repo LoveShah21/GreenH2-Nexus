@@ -692,3 +692,342 @@
 {"level":"info","message":"DELETE /scenarios/507f1f77bcf86cd799439013 - 404 - 224ms","timestamp":"2025-08-30 19:03:58:358"}
 {"level":"info","message":"GET /summary?projectId=507f1f77bcf86cd799439011 - 200 - 643ms","timestamp":"2025-08-30 19:05:11:511"}
 {"level":"info","message":"GET /health - 200 - 2ms","timestamp":"2025-08-30 19:05:43:543"}
+{"level":"info","message":"Successfully connected to MongoDB","timestamp":"2025-08-31 00:39:08:398"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-08-31 00:39:08:398"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2025-08-31 00:39:08:398"}
+{"level":"info","message":"Redis Client Ready","timestamp":"2025-08-31 00:39:08:398"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2025-08-31 00:39:08:398"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2025-08-31 00:39:08:398"}
+{"level":"info","message":"Environment: development","timestamp":"2025-08-31 00:39:08:398"}
+{"level":"info","message":"Health check: http://localhost:3000/health","timestamp":"2025-08-31 00:39:08:398"}
+{"level":"info","message":"Received shutdown signal, starting graceful shutdown...","timestamp":"2025-08-31 00:39:36:3936"}
+{"level":"info","message":"Successfully connected to MongoDB","timestamp":"2025-08-31 00:39:58:3958"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-08-31 00:39:58:3958"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2025-08-31 00:39:58:3958"}
+{"level":"info","message":"Redis Client Ready","timestamp":"2025-08-31 00:39:58:3958"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2025-08-31 00:39:58:3958"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2025-08-31 00:39:58:3958"}
+{"level":"info","message":"Environment: development","timestamp":"2025-08-31 00:39:58:3958"}
+{"level":"info","message":"Health check: http://localhost:5000/health","timestamp":"2025-08-31 00:39:58:3958"}
+{"level":"warn","message":"MongoDB disconnected","timestamp":"2025-08-31 00:42:04:424"}
+{"level":"info","message":"MongoDB reconnected","timestamp":"2025-08-31 00:49:21:4921"}
+{"level":"info","message":"Successfully connected to MongoDB","timestamp":"2025-08-31 01:56:33:5633"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-08-31 01:56:33:5633"}
+{"code":"ECONNREFUSED","level":"error","message":"Redis Client Error:","stack":"AggregateError [ECONNREFUSED]: \n    at internalConnectMultiple (node:net:1139:18)\n    at afterConnectMultiple (node:net:1714:7)","timestamp":"2025-08-31 01:56:33:5633"}
+{"code":"ECONNREFUSED","level":"error","message":"Redis Client Error:","stack":"AggregateError [ECONNREFUSED]: \n    at internalConnectMultiple (node:net:1139:18)\n    at afterConnectMultiple (node:net:1714:7)","timestamp":"2025-08-31 01:56:33:5633"}
+{"code":"ECONNREFUSED","level":"error","message":"Redis Client Error:","stack":"AggregateError [ECONNREFUSED]: \n    at internalConnectMultiple (node:net:1139:18)\n    at afterConnectMultiple (node:net:1714:7)","timestamp":"2025-08-31 01:56:33:5633"}
+{"code":"ECONNREFUSED","level":"error","message":"Redis Client Error:","stack":"AggregateError [ECONNREFUSED]: \n    at internalConnectMultiple (node:net:1139:18)\n    at afterConnectMultiple (node:net:1714:7)","timestamp":"2025-08-31 01:56:34:5634"}
+{"code":"ECONNREFUSED","level":"error","message":"Redis Client Error:","stack":"AggregateError [ECONNREFUSED]: \n    at internalConnectMultiple (node:net:1139:18)\n    at afterConnectMultiple (node:net:1714:7)","timestamp":"2025-08-31 01:56:34:5634"}
+{"code":"ECONNREFUSED","level":"error","message":"Redis Client Error:","stack":"AggregateError [ECONNREFUSED]: \n    at internalConnectMultiple (node:net:1139:18)\n    at afterConnectMultiple (node:net:1714:7)","timestamp":"2025-08-31 01:56:34:5634"}
+{"code":"ECONNREFUSED","level":"error","message":"Redis Client Error:","stack":"AggregateError [ECONNREFUSED]: \n    at internalConnectMultiple (node:net:1139:18)\n    at afterConnectMultiple (node:net:1714:7)","timestamp":"2025-08-31 01:56:34:5634"}
+{"code":"ECONNREFUSED","level":"error","message":"Redis Client Error:","stack":"AggregateError [ECONNREFUSED]: \n    at internalConnectMultiple (node:net:1139:18)\n    at afterConnectMultiple (node:net:1714:7)","timestamp":"2025-08-31 01:56:35:5635"}
+{"code":"ECONNREFUSED","level":"error","message":"Redis Client Error:","stack":"AggregateError [ECONNREFUSED]: \n    at internalConnectMultiple (node:net:1139:18)\n    at afterConnectMultiple (node:net:1714:7)","timestamp":"2025-08-31 01:56:35:5635"}
+{"code":"ECONNREFUSED","level":"error","message":"Redis Client Error:","stack":"AggregateError [ECONNREFUSED]: \n    at internalConnectMultiple (node:net:1139:18)\n    at afterConnectMultiple (node:net:1714:7)","timestamp":"2025-08-31 01:56:35:5635"}
+{"code":"ECONNREFUSED","level":"error","message":"Redis Client Error:","stack":"AggregateError [ECONNREFUSED]: \n    at internalConnectMultiple (node:net:1139:18)\n    at afterConnectMultiple (node:net:1714:7)","timestamp":"2025-08-31 01:56:36:5636"}
+{"code":"ECONNREFUSED","level":"error","message":"Redis Client Error:","stack":"AggregateError [ECONNREFUSED]: \n    at internalConnectMultiple (node:net:1139:18)\n    at afterConnectMultiple (node:net:1714:7)","timestamp":"2025-08-31 01:56:36:5636"}
+{"code":"ECONNREFUSED","level":"error","message":"Redis Client Error:","stack":"AggregateError [ECONNREFUSED]: \n    at internalConnectMultiple (node:net:1139:18)\n    at afterConnectMultiple (node:net:1714:7)","timestamp":"2025-08-31 01:56:37:5637"}
+{"code":"ECONNREFUSED","level":"error","message":"Redis Client Error:","stack":"AggregateError [ECONNREFUSED]: \n    at internalConnectMultiple (node:net:1139:18)\n    at afterConnectMultiple (node:net:1714:7)","timestamp":"2025-08-31 01:56:37:5637"}
+{"code":"ECONNREFUSED","level":"error","message":"Redis Client Error:","stack":"AggregateError [ECONNREFUSED]: \n    at internalConnectMultiple (node:net:1139:18)\n    at afterConnectMultiple (node:net:1714:7)","timestamp":"2025-08-31 01:56:38:5638"}
+{"code":"ECONNREFUSED","level":"error","message":"Redis Client Error:","stack":"AggregateError [ECONNREFUSED]: \n    at internalConnectMultiple (node:net:1139:18)\n    at afterConnectMultiple (node:net:1714:7)","timestamp":"2025-08-31 01:56:38:5638"}
+{"code":"ECONNREFUSED","level":"error","message":"Redis Client Error:","stack":"AggregateError [ECONNREFUSED]: \n    at internalConnectMultiple (node:net:1139:18)\n    at afterConnectMultiple (node:net:1714:7)","timestamp":"2025-08-31 01:56:39:5639"}
+{"code":"ECONNREFUSED","level":"error","message":"Redis Client Error:","stack":"AggregateError [ECONNREFUSED]: \n    at internalConnectMultiple (node:net:1139:18)\n    at afterConnectMultiple (node:net:1714:7)","timestamp":"2025-08-31 01:56:39:5639"}
+{"code":"ECONNREFUSED","level":"error","message":"Redis Client Error:","stack":"AggregateError [ECONNREFUSED]: \n    at internalConnectMultiple (node:net:1139:18)\n    at afterConnectMultiple (node:net:1714:7)","timestamp":"2025-08-31 01:56:40:5640"}
+{"code":"ECONNREFUSED","level":"error","message":"Redis Client Error:","stack":"AggregateError [ECONNREFUSED]: \n    at internalConnectMultiple (node:net:1139:18)\n    at afterConnectMultiple (node:net:1714:7)","timestamp":"2025-08-31 01:56:40:5640"}
+{"code":"ECONNREFUSED","level":"error","message":"Redis Client Error:","stack":"AggregateError [ECONNREFUSED]: \n    at internalConnectMultiple (node:net:1139:18)\n    at afterConnectMultiple (node:net:1714:7)","timestamp":"2025-08-31 01:56:41:5641"}
+{"code":"ECONNREFUSED","level":"error","message":"Redis Client Error:","stack":"AggregateError [ECONNREFUSED]: \n    at internalConnectMultiple (node:net:1139:18)\n    at afterConnectMultiple (node:net:1714:7)","timestamp":"2025-08-31 01:56:41:5641"}
+{"code":"ECONNREFUSED","level":"error","message":"Redis Client Error:","stack":"AggregateError [ECONNREFUSED]: \n    at internalConnectMultiple (node:net:1139:18)\n    at afterConnectMultiple (node:net:1714:7)","timestamp":"2025-08-31 01:56:42:5642"}
+{"code":"ECONNREFUSED","level":"error","message":"Redis Client Error:","stack":"AggregateError [ECONNREFUSED]: \n    at internalConnectMultiple (node:net:1139:18)\n    at afterConnectMultiple (node:net:1714:7)","timestamp":"2025-08-31 01:56:42:5642"}
+{"code":"ECONNREFUSED","level":"error","message":"Redis Client Error:","stack":"AggregateError [ECONNREFUSED]: \n    at internalConnectMultiple (node:net:1139:18)\n    at afterConnectMultiple (node:net:1714:7)","timestamp":"2025-08-31 01:56:43:5643"}
+{"level":"warn","message":"MongoDB disconnected","timestamp":"2025-08-31 01:56:43:5643"}
+{"level":"info","message":"Successfully connected to MongoDB","timestamp":"2025-08-31 01:57:20:5720"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-08-31 01:57:20:5720"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2025-08-31 01:57:20:5720"}
+{"level":"info","message":"Redis Client Ready","timestamp":"2025-08-31 01:57:20:5720"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2025-08-31 01:57:20:5720"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2025-08-31 01:57:20:5720"}
+{"level":"info","message":"Environment: development","timestamp":"2025-08-31 01:57:20:5720"}
+{"level":"info","message":"Health check: http://localhost:5000/health","timestamp":"2025-08-31 01:57:20:5720"}
+{"level":"info","message":"GET /health - 200 - 13ms","timestamp":"2025-08-31 01:57:48:5748"}
+{"level":"info","message":"GET / - 404 - 1ms","timestamp":"2025-08-31 01:57:49:5749"}
+{"level":"info","message":"Successfully connected to MongoDB","timestamp":"2025-08-31 01:59:34:5934"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-08-31 01:59:34:5934"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2025-08-31 01:59:34:5934"}
+{"level":"info","message":"Redis Client Ready","timestamp":"2025-08-31 01:59:34:5934"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2025-08-31 01:59:34:5934"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2025-08-31 01:59:34:5934"}
+{"level":"info","message":"Environment: development","timestamp":"2025-08-31 01:59:34:5934"}
+{"level":"info","message":"Health check: http://localhost:5000/health","timestamp":"2025-08-31 01:59:34:5934"}
+{"level":"info","message":"Successfully connected to MongoDB","timestamp":"2025-08-31 02:19:36:1936"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-08-31 02:19:36:1936"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2025-08-31 02:19:36:1936"}
+{"level":"info","message":"Redis Client Ready","timestamp":"2025-08-31 02:19:36:1936"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2025-08-31 02:19:36:1936"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2025-08-31 02:19:36:1936"}
+{"level":"info","message":"Environment: development","timestamp":"2025-08-31 02:19:36:1936"}
+{"level":"info","message":"Health check: http://localhost:5000/health","timestamp":"2025-08-31 02:19:36:1936"}
+{"level":"info","message":"Received shutdown signal, starting graceful shutdown...","timestamp":"2025-08-31 02:20:51:2051"}
+{"level":"info","message":"Successfully connected to MongoDB","timestamp":"2025-08-31 02:26:02:262"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-08-31 02:26:02:262"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2025-08-31 02:26:02:262"}
+{"level":"info","message":"Redis Client Ready","timestamp":"2025-08-31 02:26:02:262"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2025-08-31 02:26:02:262"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2025-08-31 02:26:02:262"}
+{"level":"info","message":"Environment: development","timestamp":"2025-08-31 02:26:02:262"}
+{"level":"info","message":"Health check: http://localhost:5000/health","timestamp":"2025-08-31 02:26:02:262"}
+{"level":"info","message":"Successfully connected to MongoDB","timestamp":"2025-08-31 02:27:59:2759"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-08-31 02:27:59:2759"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2025-08-31 02:27:59:2759"}
+{"level":"info","message":"Redis Client Ready","timestamp":"2025-08-31 02:27:59:2759"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2025-08-31 02:27:59:2759"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2025-08-31 02:27:59:2759"}
+{"level":"info","message":"Environment: development","timestamp":"2025-08-31 02:27:59:2759"}
+{"level":"info","message":"Health check: http://localhost:5000/health","timestamp":"2025-08-31 02:27:59:2759"}
+{"level":"info","message":"Successfully connected to MongoDB","timestamp":"2025-08-31 02:28:09:289"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-08-31 02:28:09:289"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2025-08-31 02:28:09:289"}
+{"level":"info","message":"Redis Client Ready","timestamp":"2025-08-31 02:28:09:289"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2025-08-31 02:28:09:289"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2025-08-31 02:28:09:289"}
+{"level":"info","message":"Environment: development","timestamp":"2025-08-31 02:28:09:289"}
+{"level":"info","message":"Health check: http://localhost:5000/health","timestamp":"2025-08-31 02:28:09:289"}
+{"level":"info","message":"Successfully connected to MongoDB","timestamp":"2025-08-31 02:28:18:2818"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-08-31 02:28:18:2818"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2025-08-31 02:28:18:2818"}
+{"level":"info","message":"Redis Client Ready","timestamp":"2025-08-31 02:28:18:2818"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2025-08-31 02:28:18:2818"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2025-08-31 02:28:18:2818"}
+{"level":"info","message":"Environment: development","timestamp":"2025-08-31 02:28:18:2818"}
+{"level":"info","message":"Health check: http://localhost:5000/health","timestamp":"2025-08-31 02:28:18:2818"}
+{"level":"info","message":"Successfully connected to MongoDB","timestamp":"2025-08-31 02:28:24:2824"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-08-31 02:28:24:2824"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2025-08-31 02:28:24:2824"}
+{"level":"info","message":"Redis Client Ready","timestamp":"2025-08-31 02:28:24:2824"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2025-08-31 02:28:24:2824"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2025-08-31 02:28:24:2824"}
+{"level":"info","message":"Environment: development","timestamp":"2025-08-31 02:28:24:2824"}
+{"level":"info","message":"Health check: http://localhost:5000/health","timestamp":"2025-08-31 02:28:24:2824"}
+{"level":"info","message":"Successfully connected to MongoDB","timestamp":"2025-08-31 02:28:43:2843"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-08-31 02:28:43:2843"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2025-08-31 02:28:43:2843"}
+{"level":"info","message":"Redis Client Ready","timestamp":"2025-08-31 02:28:43:2843"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2025-08-31 02:28:43:2843"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2025-08-31 02:28:43:2843"}
+{"level":"info","message":"Environment: development","timestamp":"2025-08-31 02:28:43:2843"}
+{"level":"info","message":"Health check: http://localhost:5000/health","timestamp":"2025-08-31 02:28:43:2843"}
+{"level":"info","message":"Successfully connected to MongoDB","timestamp":"2025-08-31 02:28:51:2851"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-08-31 02:28:51:2851"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2025-08-31 02:28:51:2851"}
+{"level":"info","message":"Redis Client Ready","timestamp":"2025-08-31 02:28:51:2851"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2025-08-31 02:28:51:2851"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2025-08-31 02:28:51:2851"}
+{"level":"info","message":"Environment: development","timestamp":"2025-08-31 02:28:51:2851"}
+{"level":"info","message":"Health check: http://localhost:5000/health","timestamp":"2025-08-31 02:28:51:2851"}
+{"level":"info","message":"Successfully connected to MongoDB","timestamp":"2025-08-31 02:28:56:2856"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-08-31 02:28:56:2856"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2025-08-31 02:28:56:2856"}
+{"level":"info","message":"Redis Client Ready","timestamp":"2025-08-31 02:28:56:2856"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2025-08-31 02:28:56:2856"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2025-08-31 02:28:56:2856"}
+{"level":"info","message":"Environment: development","timestamp":"2025-08-31 02:28:56:2856"}
+{"level":"info","message":"Health check: http://localhost:5000/health","timestamp":"2025-08-31 02:28:56:2856"}
+{"level":"info","message":"Successfully connected to MongoDB","timestamp":"2025-08-31 02:29:06:296"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-08-31 02:29:06:296"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2025-08-31 02:29:06:296"}
+{"level":"info","message":"Redis Client Ready","timestamp":"2025-08-31 02:29:06:296"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2025-08-31 02:29:06:296"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2025-08-31 02:29:06:296"}
+{"level":"info","message":"Environment: development","timestamp":"2025-08-31 02:29:06:296"}
+{"level":"info","message":"Health check: http://localhost:5000/health","timestamp":"2025-08-31 02:29:06:296"}
+{"level":"info","message":"Successfully connected to MongoDB","timestamp":"2025-08-31 02:31:02:312"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-08-31 02:31:02:312"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2025-08-31 02:31:02:312"}
+{"level":"info","message":"Redis Client Ready","timestamp":"2025-08-31 02:31:02:312"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2025-08-31 02:31:02:312"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2025-08-31 02:31:02:312"}
+{"level":"info","message":"Environment: development","timestamp":"2025-08-31 02:31:02:312"}
+{"level":"info","message":"Health check: http://localhost:5000/health","timestamp":"2025-08-31 02:31:02:312"}
+{"level":"info","message":"Successfully connected to MongoDB","timestamp":"2025-08-31 02:31:06:316"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-08-31 02:31:06:316"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2025-08-31 02:31:06:316"}
+{"level":"info","message":"Redis Client Ready","timestamp":"2025-08-31 02:31:06:316"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2025-08-31 02:31:06:316"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2025-08-31 02:31:06:316"}
+{"level":"info","message":"Environment: development","timestamp":"2025-08-31 02:31:06:316"}
+{"level":"info","message":"Health check: http://localhost:5000/health","timestamp":"2025-08-31 02:31:06:316"}
+{"level":"info","message":"Successfully connected to MongoDB","timestamp":"2025-08-31 02:32:06:326"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-08-31 02:32:06:326"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2025-08-31 02:32:06:326"}
+{"level":"info","message":"Redis Client Ready","timestamp":"2025-08-31 02:32:06:326"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2025-08-31 02:32:06:326"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2025-08-31 02:32:06:326"}
+{"level":"info","message":"Environment: development","timestamp":"2025-08-31 02:32:06:326"}
+{"level":"info","message":"Health check: http://localhost:5000/health","timestamp":"2025-08-31 02:32:06:326"}
+{"level":"info","message":"GET / - 404 - 7ms","timestamp":"2025-08-31 02:32:32:3232"}
+{"level":"info","message":"GET /health - 200 - 2ms","timestamp":"2025-08-31 02:32:32:3232"}
+{"level":"info","message":"POST /register - 400 - 12ms","timestamp":"2025-08-31 02:32:32:3232"}
+{"level":"info","message":"POST /login - 401 - 30ms","timestamp":"2025-08-31 02:32:32:3232"}
+{"level":"info","message":"GET /predict-zone?lat=51.505&lng=-0.09 - 200 - 286ms","timestamp":"2025-08-31 02:32:33:3233"}
+{"level":"info","message":"POST /predict-zones/batch - 200 - 24ms","timestamp":"2025-08-31 02:32:33:3233"}
+{"level":"info","message":"POST /analyze-area - 200 - 88ms","timestamp":"2025-08-31 02:32:33:3233"}
+{"level":"info","message":"GET /?limit=10 - 401 - 1ms","timestamp":"2025-08-31 02:32:33:3233"}
+{"level":"info","message":"GET /?limit=10 - 401 - 1ms","timestamp":"2025-08-31 02:32:33:3233"}
+{"level":"info","message":"GET /summary - 401 - 1ms","timestamp":"2025-08-31 02:32:33:3233"}
+{"level":"info","message":"GET /health - 200 - 7ms","timestamp":"2025-08-31 02:32:33:3233"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-08-31 02:33:42:3342"}
+{"level":"info","message":"Successfully connected to MongoDB","timestamp":"2025-08-31 02:34:09:349"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-08-31 02:34:09:349"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2025-08-31 02:34:09:349"}
+{"level":"info","message":"Redis Client Ready","timestamp":"2025-08-31 02:34:09:349"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2025-08-31 02:34:09:349"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2025-08-31 02:34:09:349"}
+{"level":"info","message":"Environment: development","timestamp":"2025-08-31 02:34:09:349"}
+{"level":"info","message":"Health check: http://localhost:5000/health","timestamp":"2025-08-31 02:34:09:349"}
+{"level":"info","message":"GET /health - 200 - 4ms","timestamp":"2025-08-31 02:34:10:3410"}
+{"level":"info","message":"GET / - 404 - 2ms","timestamp":"2025-08-31 02:34:19:3419"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-08-31 02:34:19:3419"}
+{"level":"info","message":"POST /register - 400 - 8ms","timestamp":"2025-08-31 02:34:19:3419"}
+{"level":"info","message":"POST /login - 401 - 25ms","timestamp":"2025-08-31 02:34:19:3419"}
+{"level":"info","message":"GET /predict-zone?lat=51.505&lng=-0.09 - 200 - 48ms","timestamp":"2025-08-31 02:34:19:3419"}
+{"level":"info","message":"POST /predict-zones/batch - 200 - 12ms","timestamp":"2025-08-31 02:34:19:3419"}
+{"level":"info","message":"POST /analyze-area - 200 - 73ms","timestamp":"2025-08-31 02:34:19:3419"}
+{"level":"info","message":"GET /?limit=10 - 401 - 1ms","timestamp":"2025-08-31 02:34:19:3419"}
+{"level":"info","message":"GET /?limit=10 - 401 - 1ms","timestamp":"2025-08-31 02:34:19:3419"}
+{"level":"info","message":"GET /summary - 401 - 0ms","timestamp":"2025-08-31 02:34:19:3419"}
+{"level":"info","message":"GET /health - 200 - 6ms","timestamp":"2025-08-31 02:34:19:3419"}
+{"level":"info","message":"Successfully connected to MongoDB","timestamp":"2025-08-31 02:35:54:3554"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-08-31 02:35:54:3554"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2025-08-31 02:35:54:3554"}
+{"level":"info","message":"Redis Client Ready","timestamp":"2025-08-31 02:35:54:3554"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2025-08-31 02:35:54:3554"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2025-08-31 02:35:54:3554"}
+{"level":"info","message":"Environment: development","timestamp":"2025-08-31 02:35:54:3554"}
+{"level":"info","message":"Health check: http://localhost:5000/health","timestamp":"2025-08-31 02:35:54:3554"}
+{"level":"info","message":"GET / - 404 - 7ms","timestamp":"2025-08-31 02:35:58:3558"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-08-31 02:35:58:3558"}
+{"level":"info","message":"POST /register - 201 - 412ms","timestamp":"2025-08-31 02:35:58:3558"}
+{"level":"info","message":"POST /login - 200 - 312ms","timestamp":"2025-08-31 02:35:59:3559"}
+{"level":"info","message":"GET /predict-zone?lat=51.505&lng=-0.09 - 200 - 48ms","timestamp":"2025-08-31 02:35:59:3559"}
+{"level":"info","message":"POST /predict-zones/batch - 200 - 17ms","timestamp":"2025-08-31 02:35:59:3559"}
+{"level":"info","message":"POST /analyze-area - 200 - 90ms","timestamp":"2025-08-31 02:35:59:3559"}
+{"level":"info","message":"GET /?limit=10 - 401 - 1ms","timestamp":"2025-08-31 02:35:59:3559"}
+{"level":"info","message":"GET /?limit=10 - 401 - 1ms","timestamp":"2025-08-31 02:35:59:3559"}
+{"level":"info","message":"GET /summary - 401 - 0ms","timestamp":"2025-08-31 02:35:59:3559"}
+{"level":"info","message":"GET /health - 200 - 5ms","timestamp":"2025-08-31 02:35:59:3559"}
+{"level":"info","message":"Successfully connected to MongoDB","timestamp":"2025-08-31 02:36:19:3619"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-08-31 02:36:19:3619"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2025-08-31 02:36:19:3619"}
+{"level":"info","message":"Redis Client Ready","timestamp":"2025-08-31 02:36:19:3619"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2025-08-31 02:36:19:3619"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2025-08-31 02:36:19:3619"}
+{"level":"info","message":"Environment: development","timestamp":"2025-08-31 02:36:19:3619"}
+{"level":"info","message":"Health check: http://localhost:5000/health","timestamp":"2025-08-31 02:36:19:3619"}
+{"level":"info","message":"GET / - 404 - 6ms","timestamp":"2025-08-31 02:36:22:3622"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-08-31 02:36:22:3622"}
+{"level":"info","message":"POST /register - 400 - 39ms","timestamp":"2025-08-31 02:36:22:3622"}
+{"level":"info","message":"POST /login - 200 - 353ms","timestamp":"2025-08-31 02:36:23:3623"}
+{"level":"info","message":"GET /predict-zone?lat=51.505&lng=-0.09 - 200 - 43ms","timestamp":"2025-08-31 02:36:23:3623"}
+{"level":"info","message":"POST /predict-zones/batch - 200 - 15ms","timestamp":"2025-08-31 02:36:23:3623"}
+{"level":"info","message":"POST /analyze-area - 200 - 83ms","timestamp":"2025-08-31 02:36:23:3623"}
+{"level":"info","message":"GET /?limit=10 - 200 - 69ms","timestamp":"2025-08-31 02:36:23:3623"}
+{"level":"info","message":"GET /?limit=10 - 200 - 2ms","timestamp":"2025-08-31 02:36:23:3623"}
+{"level":"info","message":"GET /summary - 400 - 3ms","timestamp":"2025-08-31 02:36:23:3623"}
+{"level":"info","message":"GET /health - 200 - 4ms","timestamp":"2025-08-31 02:36:23:3623"}
+{"level":"info","message":"Successfully connected to MongoDB","timestamp":"2025-08-31 02:36:49:3649"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-08-31 02:36:49:3649"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2025-08-31 02:36:49:3649"}
+{"level":"info","message":"Redis Client Ready","timestamp":"2025-08-31 02:36:49:3649"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2025-08-31 02:36:49:3649"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2025-08-31 02:36:49:3649"}
+{"level":"info","message":"Environment: development","timestamp":"2025-08-31 02:36:49:3649"}
+{"level":"info","message":"Health check: http://localhost:5000/health","timestamp":"2025-08-31 02:36:49:3649"}
+{"level":"info","message":"GET / - 404 - 7ms","timestamp":"2025-08-31 02:36:53:3653"}
+{"level":"info","message":"GET /health - 200 - 3ms","timestamp":"2025-08-31 02:36:53:3653"}
+{"level":"info","message":"POST /register - 400 - 38ms","timestamp":"2025-08-31 02:36:53:3653"}
+{"level":"info","message":"POST /login - 200 - 340ms","timestamp":"2025-08-31 02:36:54:3654"}
+{"level":"info","message":"GET /predict-zone?lat=51.505&lng=-0.09 - 200 - 40ms","timestamp":"2025-08-31 02:36:54:3654"}
+{"level":"info","message":"POST /predict-zones/batch - 200 - 16ms","timestamp":"2025-08-31 02:36:54:3654"}
+{"level":"info","message":"POST /analyze-area - 200 - 77ms","timestamp":"2025-08-31 02:36:54:3654"}
+{"level":"info","message":"GET /?limit=10 - 200 - 9ms","timestamp":"2025-08-31 02:36:54:3654"}
+{"level":"info","message":"GET /?limit=10 - 200 - 4ms","timestamp":"2025-08-31 02:36:54:3654"}
+{"level":"info","message":"GET /?limit=1 - 200 - 42ms","timestamp":"2025-08-31 02:36:54:3654"}
+{"level":"info","message":"GET /summary?projectId=test-project-id - 200 - 35ms","timestamp":"2025-08-31 02:36:54:3654"}
+{"level":"info","message":"GET /health - 200 - 3ms","timestamp":"2025-08-31 02:36:54:3654"}
+{"level":"info","message":"Successfully connected to MongoDB","timestamp":"2025-08-31 02:42:15:4215"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-08-31 02:42:15:4215"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2025-08-31 02:42:15:4215"}
+{"level":"info","message":"Redis Client Ready","timestamp":"2025-08-31 02:42:15:4215"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2025-08-31 02:42:15:4215"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2025-08-31 02:42:15:4215"}
+{"level":"info","message":"Environment: development","timestamp":"2025-08-31 02:42:15:4215"}
+{"level":"info","message":"Health check: http://localhost:5000/health","timestamp":"2025-08-31 02:42:15:4215"}
+{"level":"info","message":"Successfully connected to MongoDB","timestamp":"2025-08-31 02:52:23:5223"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-08-31 02:52:23:5223"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2025-08-31 02:52:23:5223"}
+{"level":"info","message":"Redis Client Ready","timestamp":"2025-08-31 02:52:23:5223"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2025-08-31 02:52:23:5223"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2025-08-31 02:52:23:5223"}
+{"level":"info","message":"Environment: development","timestamp":"2025-08-31 02:52:23:5223"}
+{"level":"info","message":"Health check: http://localhost:5000/health","timestamp":"2025-08-31 02:52:23:5223"}
+{"level":"info","message":"Received shutdown signal, starting graceful shutdown...","timestamp":"2025-08-31 02:52:31:5231"}
+{"level":"info","message":"Successfully connected to MongoDB","timestamp":"2025-08-31 02:52:40:5240"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-08-31 02:52:40:5240"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2025-08-31 02:52:40:5240"}
+{"level":"info","message":"Redis Client Ready","timestamp":"2025-08-31 02:52:40:5240"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2025-08-31 02:52:40:5240"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2025-08-31 02:52:40:5240"}
+{"level":"info","message":"Environment: development","timestamp":"2025-08-31 02:52:40:5240"}
+{"level":"info","message":"Health check: http://localhost:5000/health","timestamp":"2025-08-31 02:52:40:5240"}
+{"level":"info","message":"Successfully connected to MongoDB","timestamp":"2025-08-31 02:52:49:5249"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-08-31 02:52:49:5249"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2025-08-31 02:52:49:5249"}
+{"level":"info","message":"Redis Client Ready","timestamp":"2025-08-31 02:52:49:5249"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2025-08-31 02:52:49:5249"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2025-08-31 02:52:49:5249"}
+{"level":"info","message":"Environment: development","timestamp":"2025-08-31 02:52:49:5249"}
+{"level":"info","message":"Health check: http://localhost:5000/health","timestamp":"2025-08-31 02:52:49:5249"}
+{"level":"info","message":"POST /register - 201 - 438ms","timestamp":"2025-08-31 02:52:57:5257"}
+{"level":"info","message":"POST /login - 200 - 549ms","timestamp":"2025-08-31 02:56:58:5658"}
+{"level":"info","message":"GET /summary - 400 - 19ms","timestamp":"2025-08-31 03:06:04:64"}
+{"level":"info","message":"GET /?limit=10 - 200 - 275ms","timestamp":"2025-08-31 03:06:04:64"}
+{"level":"info","message":"GET / - 404 - 25ms","timestamp":"2025-08-31 03:09:37:937"}
+{"level":"info","message":"GET /health - 200 - 8ms","timestamp":"2025-08-31 03:09:37:937"}
+{"level":"info","message":"POST /register - 400 - 72ms","timestamp":"2025-08-31 03:09:37:937"}
+{"level":"info","message":"POST /login - 200 - 375ms","timestamp":"2025-08-31 03:09:38:938"}
+{"level":"info","message":"GET /predict-zone?lat=51.505&lng=-0.09 - 200 - 259ms","timestamp":"2025-08-31 03:09:38:938"}
+{"level":"info","message":"POST /predict-zones/batch - 200 - 32ms","timestamp":"2025-08-31 03:09:38:938"}
+{"level":"info","message":"POST /analyze-area - 200 - 366ms","timestamp":"2025-08-31 03:09:38:938"}
+{"level":"info","message":"GET /?limit=10 - 200 - 32ms","timestamp":"2025-08-31 03:09:38:938"}
+{"level":"info","message":"GET /?limit=10 - 200 - 4ms","timestamp":"2025-08-31 03:09:38:938"}
+{"level":"info","message":"GET /?limit=1 - 200 - 117ms","timestamp":"2025-08-31 03:09:38:938"}
+{"level":"info","message":"GET /summary?projectId=68b36f59fc66d000372cf48b - 200 - 40ms","timestamp":"2025-08-31 03:09:38:938"}
+{"level":"info","message":"GET /health - 200 - 5ms","timestamp":"2025-08-31 03:09:38:938"}
+{"level":"info","message":"Successfully connected to MongoDB","timestamp":"2025-08-31 03:09:56:956"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-08-31 03:09:56:956"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2025-08-31 03:09:56:956"}
+{"level":"info","message":"Redis Client Ready","timestamp":"2025-08-31 03:09:56:956"}
+{"level":"info","message":"GET /? - 200 - 171ms","timestamp":"2025-08-31 03:10:35:1035"}
+{"level":"info","message":"GET /? - 200 - 188ms","timestamp":"2025-08-31 03:10:35:1035"}
+{"level":"info","message":"GET /summary - 400 - 21ms","timestamp":"2025-08-31 03:11:04:114"}
+{"level":"info","message":"GET /?limit=1000 - 400 - 46ms","timestamp":"2025-08-31 03:11:04:114"}
+{"level":"info","message":"GET /? - 200 - 7ms","timestamp":"2025-08-31 03:11:28:1128"}
+{"level":"info","message":"GET /? - 200 - 3ms","timestamp":"2025-08-31 03:11:28:1128"}
+{"level":"info","message":"GET /? - 200 - 18ms","timestamp":"2025-08-31 03:11:58:1158"}
+{"level":"info","message":"Received shutdown signal, starting graceful shutdown...","timestamp":"2025-08-31 03:12:16:1216"}
+{"level":"info","message":"Successfully connected to MongoDB","timestamp":"2025-08-31 03:12:21:1221"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-08-31 03:12:21:1221"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2025-08-31 03:12:21:1221"}
+{"level":"info","message":"Redis Client Ready","timestamp":"2025-08-31 03:12:21:1221"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2025-08-31 03:12:21:1221"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2025-08-31 03:12:21:1221"}
+{"level":"info","message":"Environment: development","timestamp":"2025-08-31 03:12:21:1221"}
+{"level":"info","message":"Health check: http://localhost:5000/health","timestamp":"2025-08-31 03:12:21:1221"}
+{"level":"info","message":"GET /? - 200 - 75ms","timestamp":"2025-08-31 03:12:32:1232"}
+{"level":"info","message":"GET /profile - 200 - 158ms","timestamp":"2025-08-31 03:12:52:1252"}
+{"level":"info","message":"GET /profile - 200 - 139ms","timestamp":"2025-08-31 03:12:52:1252"}
+{"level":"info","message":"GET /summary - 400 - 17ms","timestamp":"2025-08-31 03:13:23:1323"}
+{"level":"info","message":"GET /?limit=10 - 200 - 225ms","timestamp":"2025-08-31 03:13:23:1323"}
+{"level":"info","message":"GET /?limit=100 - 200 - 102ms","timestamp":"2025-08-31 03:13:33:1333"}
+{"level":"info","message":"GET /?limit=100 - 200 - 94ms","timestamp":"2025-08-31 03:13:33:1333"}
+{"level":"info","message":"GET /? - 200 - 21ms","timestamp":"2025-08-31 03:14:15:1415"}
+{"level":"info","message":"GET / - 401 - 41ms","timestamp":"2025-08-31 03:15:12:1512"}
+{"level":"info","message":"GET / - 200 - 18ms","timestamp":"2025-08-31 03:16:10:1610"}

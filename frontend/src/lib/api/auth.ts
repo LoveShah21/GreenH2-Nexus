@@ -7,23 +7,37 @@ export interface LoginCredentials {
 }
 
 export interface RegisterData {
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
-  role?: 'user' | 'analyst';
+  organization: string;
+  role?: 'admin' | 'manager' | 'analyst' | 'viewer';
 }
 
 export const authApi = {
   async login(credentials: LoginCredentials): Promise<AuthResponse> {
-    const response = await apiClient.post<AuthResponse>('/auth/login', credentials);
-    apiClient.setToken(response.token);
-    return response;
+    const response = await apiClient.post<any>('/auth/login', credentials);
+    if (response.data && response.data.tokens) {
+      apiClient.setToken(response.data.tokens.accessToken);
+      return {
+        token: response.data.tokens.accessToken,
+        user: response.data.user
+      };
+    }
+    throw new Error('Invalid response format');
   },
 
   async register(data: RegisterData): Promise<AuthResponse> {
-    const response = await apiClient.post<AuthResponse>('/auth/register', data);
-    apiClient.setToken(response.token);
-    return response;
+    const response = await apiClient.post<any>('/auth/register', data);
+    if (response.data && response.data.tokens) {
+      apiClient.setToken(response.data.tokens.accessToken);
+      return {
+        token: response.data.tokens.accessToken,
+        user: response.data.user
+      };
+    }
+    throw new Error('Invalid response format');
   },
 
   async refresh(): Promise<AuthResponse> {
@@ -36,6 +50,15 @@ export const authApi = {
   },
 
   async getCurrentUser(): Promise<User> {
-    return apiClient.get<User>('/auth/me');
+    return apiClient.get<User>('/auth/profile');
+  },
+
+  async updateProfile(data: { firstName: string; lastName: string; organization: string }): Promise<User> {
+    const response = await apiClient.put<any>('/auth/profile', data);
+    return response.data || response;
+  },
+
+  async changePassword(data: { currentPassword: string; newPassword: string }): Promise<void> {
+    await apiClient.put('/auth/change-password', data);
   }
 };
