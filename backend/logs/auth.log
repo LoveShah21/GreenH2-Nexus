@@ -1,0 +1,5 @@
+{"level":"info","message":"New user registered: john.doe@example.com","timestamp":"2025-08-30 13:15:09:159"}
+{"level":"info","message":"User logged in: john.doe@example.com","timestamp":"2025-08-30 13:16:32:1632"}
+{"level":"error","message":"User registration failed:","timestamp":"2025-08-30 13:35:53:3553"}
+{"level":"info","message":"User logged in: john.doe@example.com","timestamp":"2025-08-30 13:37:27:3727"}
+{"level":"info","message":"Tokens refreshed for user: john.doe@example.com","timestamp":"2025-08-30 13:39:18:3918"}

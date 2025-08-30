@@ -1,0 +1,29 @@
+{"level":"info","message":{"ip":"::1","method":"GET","url":"/health","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"},"timestamp":"2025-08-30T07:13:20.206Z"}
+{"level":"info","message":{"ip":"::1","method":"GET","url":"/favicon.ico","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"},"timestamp":"2025-08-30T07:13:20.327Z"}
+{"level":"info","message":{"ip":"::1","method":"POST","url":"/api/auth/register","userAgent":"PostmanRuntime/7.45.0"},"timestamp":"2025-08-30T07:45:07.590Z"}
+{"level":"info","message":{"ip":"::1","method":"POST","url":"/api/auth/login","userAgent":"PostmanRuntime/7.45.0"},"timestamp":"2025-08-30T07:46:22.088Z"}
+{"level":"info","message":{"ip":"::1","method":"POST","url":"/api/analytics/geospatial","userAgent":"PostmanRuntime/7.45.0"},"timestamp":"2025-08-30T07:48:14.969Z"}
+{"level":"info","message":{"ip":"::1","method":"POST","url":"/api/analytics/demand-forecast","userAgent":"PostmanRuntime/7.45.0"},"timestamp":"2025-08-30T07:49:14.014Z"}
+{"level":"info","message":{"ip":"::1","method":"POST","url":"/api/analytics/cost-optimization","userAgent":"PostmanRuntime/7.45.0"},"timestamp":"2025-08-30T07:49:57.256Z"}
+{"level":"info","message":{"ip":"::1","method":"POST","url":"/api/analytics/network-analysis","userAgent":"PostmanRuntime/7.45.0"},"timestamp":"2025-08-30T07:50:38.988Z"}
+{"level":"info","message":{"ip":"::1","method":"POST","url":"/api/analytics/environmental-assessment","userAgent":"PostmanRuntime/7.45.0"},"timestamp":"2025-08-30T07:51:34.439Z"}
+{"level":"info","message":{"ip":"::1","method":"GET","url":"/api/analytics/real-time-metrics/507f1f77bcf86cd799439011?timeWindow=1h&metrics=efficiency,capacity,demand","userAgent":"PostmanRuntime/7.45.0"},"timestamp":"2025-08-30T07:52:25.446Z"}
+{"level":"info","message":{"ip":"::1","method":"GET","url":"/api/analytics/real-time-metrics/507f1f77bcf86cd799439011?timeWindow=1h&metrics=efficiency,capacity,demand","userAgent":"Mozilla/5.0 (Windows NT; Windows NT 10.0; en-IN) WindowsPowerShell/5.1.26100.4768"},"timestamp":"2025-08-30T07:57:11.445Z"}
+{"level":"info","message":{"ip":"::1","method":"PUT","url":"/api/analytics/scenarios/507f1f77bcf86cd799439014","userAgent":"PostmanRuntime/7.45.0"},"timestamp":"2025-08-30T07:58:32.917Z"}
+{"level":"info","message":{"ip":"::1","method":"GET","url":"/health","userAgent":"Mozilla/5.0 (Windows NT; Windows NT 10.0; en-IN) WindowsPowerShell/5.1.26100.4768"},"timestamp":"2025-08-30T08:00:41.572Z"}
+{"level":"info","message":{"ip":"::1","method":"GET","url":"/api/analytics/real-time-metrics/507f1f77bcf86cd799439011?timeWindow=1h&metrics=efficiency,capacity,demand","userAgent":"Mozilla/5.0 (Windows NT; Windows NT 10.0; en-IN) WindowsPowerShell/5.1.26100.4768"},"timestamp":"2025-08-30T08:02:12.277Z"}
+{"level":"info","message":{"ip":"::1","method":"GET","url":"/api/analytics/real-time-metrics/507f1f77bcf86cd799439011?timeWindow=1h&metrics=efficiency,capacity,demand","userAgent":"Mozilla/5.0 (Windows NT; Windows NT 10.0; en-IN) WindowsPowerShell/5.1.26100.4768"},"timestamp":"2025-08-30T08:02:18.898Z"}
+{"level":"info","message":{"ip":"::1","method":"POST","url":"/api/auth/register","userAgent":"PostmanRuntime/7.45.0"},"timestamp":"2025-08-30T08:05:53.470Z"}
+{"level":"info","message":{"ip":"::1","method":"GET","url":"/api/auth/login","userAgent":"PostmanRuntime/7.45.0"},"timestamp":"2025-08-30T08:06:26.543Z"}
+{"level":"info","message":{"ip":"::1","method":"GET","url":"/api/auth/login","userAgent":"PostmanRuntime/7.45.0"},"timestamp":"2025-08-30T08:07:10.935Z"}
+{"level":"info","message":{"ip":"::1","method":"POST","url":"/api/auth/login","userAgent":"PostmanRuntime/7.45.0"},"timestamp":"2025-08-30T08:07:17.994Z"}
+{"level":"info","message":{"ip":"::1","method":"POST","url":"/api/auth/refresh","userAgent":"PostmanRuntime/7.45.0"},"timestamp":"2025-08-30T08:09:18.213Z"}
+{"level":"info","message":{"ip":"::1","method":"POST","url":"/api/analytics/geospatial","userAgent":"PostmanRuntime/7.45.0"},"timestamp":"2025-08-30T08:13:04.680Z"}
+{"level":"info","message":{"ip":"::1","method":"POST","url":"/api/analytics/demand-forecast","userAgent":"PostmanRuntime/7.45.0"},"timestamp":"2025-08-30T08:14:03.625Z"}
+{"level":"info","message":{"ip":"::1","method":"POST","url":"/api/analytics/cost-optimization","userAgent":"PostmanRuntime/7.45.0"},"timestamp":"2025-08-30T08:15:03.730Z"}
+{"level":"info","message":{"ip":"::1","method":"POST","url":"/api/analytics/network-analysis","userAgent":"PostmanRuntime/7.45.0"},"timestamp":"2025-08-30T08:16:08.745Z"}
+{"level":"info","message":{"ip":"::1","method":"POST","url":"/api/analytics/environmental-assessment","userAgent":"PostmanRuntime/7.45.0"},"timestamp":"2025-08-30T08:16:51.696Z"}
+{"level":"info","message":{"ip":"::1","method":"GET","url":"/api/analytics/real-time-metrics/507f1f77bcf86cd799439011?timeWindow=1h&metrics=efficiency,capacity,demand","userAgent":"PostmanRuntime/7.45.0"},"timestamp":"2025-08-30T08:17:19.661Z"}
+{"level":"info","message":{"ip":"::1","method":"POST","url":"/api/analytics/mcda","userAgent":"PostmanRuntime/7.45.0"},"timestamp":"2025-08-30T08:18:04.491Z"}
+{"level":"info","message":{"ip":"::1","method":"POST","url":"/api/analytics/genetic-optimization","userAgent":"PostmanRuntime/7.45.0"},"timestamp":"2025-08-30T08:18:50.757Z"}
+{"level":"info","message":{"ip":"::1","method":"POST","url":"/api/analytics/cost-surface","userAgent":"PostmanRuntime/7.45.0"},"timestamp":"2025-08-30T08:19:34.967Z"}

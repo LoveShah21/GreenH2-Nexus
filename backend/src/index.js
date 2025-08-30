@@ -13,7 +13,7 @@ const { redisClient } = require('./config/redis');
 
 // Import middleware
 const { requestLogger } = require('./utils/logger');
-const authMiddleware = require('./middleware/auth');
+const { authenticateToken: authMiddleware } = require('./middleware/auth');
 
 // Import routes
 const authRoutes = require('./routes/auth');
