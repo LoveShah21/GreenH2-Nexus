@@ -1141,3 +1141,11 @@
 {"level":"info","message":"New infrastructure created with ID: 68b36df5fc66d000372cf488","timestamp":"2025-08-31 03:02:37:237"}
 {"level":"info","message":"POST / - 201 - 355ms","timestamp":"2025-08-31 03:02:37:237"}
 >>>>>>> 61a7f27577634df9127d219fbf99684a4ae8f7ba
+{"level":"info","message":"Successfully connected to MongoDB","timestamp":"2025-08-31 03:19:48:1948"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-08-31 03:19:48:1948"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2025-08-31 03:19:48:1948"}
+{"level":"info","message":"Redis Client Ready","timestamp":"2025-08-31 03:19:48:1948"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2025-08-31 03:19:48:1948"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2025-08-31 03:19:48:1948"}
+{"level":"info","message":"Environment: development","timestamp":"2025-08-31 03:19:48:1948"}
+{"level":"info","message":"Health check: http://localhost:5000/health","timestamp":"2025-08-31 03:19:48:1948"}
