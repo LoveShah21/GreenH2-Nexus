@@ -5,8 +5,7 @@ const { logger } = require('../utils/logger');
 
 const router = express.Router();
 
-// Placeholder for infrastructure service (to be implemented)
-const infrastructureService = {};
+const infrastructureController = require('../controllers/infrastructureController');
 
 // Validation middleware
 const validateInfrastructureData = [
@@ -54,32 +53,7 @@ router.get('/', validatePagination, async (req, res) => {
 });
 
 // POST /api/infrastructure - Create new infrastructure
-router.post('/', validateInfrastructureData, authorizeRole('analyst'), async (req, res) => {
-  try {
-    // Check for validation errors
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({
-        success: false,
-        error: 'Validation failed',
-        details: errors.array()
-      });
-    }
-
-    // Placeholder response
-    res.status(201).json({
-      success: true,
-      message: 'Infrastructure creation endpoint - to be implemented'
-    });
-
-  } catch (error) {
-    logger.error('Create infrastructure failed:', error);
-    res.status(400).json({
-      success: false,
-      error: error.message || 'Failed to create infrastructure'
-    });
-  }
-});
+router.post('/', validateInfrastructureData, authorizeRole('analyst'), infrastructureController.createInfrastructure);
 
 // GET /api/infrastructure/route-optimization - Route optimization analysis
 router.get('/route-optimization', async (req, res) => {

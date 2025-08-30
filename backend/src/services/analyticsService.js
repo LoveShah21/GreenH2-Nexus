@@ -29,10 +29,10 @@ class AnalyticsService {
           $geoNear: {
             near: {
               type: 'Point',
-              coordinates: [centerPoint.longitude, centerPoint.latitude]
+              coordinates: [centerPoint.lng, centerPoint.lat],
+              maxDistance: radiusKm * 1000
             },
             distanceField: 'distance',
-            maxDistance: radiusKm * 1000,
             spherical: true,
             key: 'geometry'
           }
@@ -55,9 +55,9 @@ class AnalyticsService {
                 $geoNear: {
                   near: '$$infraLocation',
                   distanceField: 'distanceToInfrastructure',
-                  maxDistance: 50000, // 50km
                   spherical: true,
-                  key: 'location'
+                  key: 'location',
+                  maxDistance: 50000 // 50km
                 }
               },
               ...(renewableTypes.length > 0 ? [{

@@ -20,22 +20,22 @@ const infrastructureSchema = new mongoose.Schema({
       validate: {
         validator: function(v) {
           // Basic validation for different geometry types
-          if (this.type === 'Point') {
-            return Array.isArray(v) && v.length === 2 && 
-                   v[0] >= -180 && v[0] <= 180 && 
+          if (this.geometry.type === 'Point') {
+            return Array.isArray(v) && v.length === 2 &&
+                   v[0] >= -180 && v[0] <= 180 &&
                    v[1] >= -90 && v[1] <= 90;
           }
-          if (this.type === 'LineString') {
-            return Array.isArray(v) && v.length >= 2 && 
+          if (this.geometry.type === 'LineString') {
+            return Array.isArray(v) && v.length >= 2 &&
                    v.every(coord => Array.isArray(coord) && coord.length === 2);
           }
-          if (this.type === 'Polygon') {
-            return Array.isArray(v) && v.length >= 1 && 
+          if (this.geometry.type === 'Polygon') {
+            return Array.isArray(v) && v.length >= 1 &&
                    v.every(ring => Array.isArray(ring) && ring.length >= 3);
           }
-          if (this.type === 'MultiPolygon') {
-            return Array.isArray(v) && v.every(polygon => 
-              Array.isArray(polygon) && polygon.every(ring => 
+          if (this.geometry.type === 'MultiPolygon') {
+            return Array.isArray(v) && v.every(polygon =>
+              Array.isArray(polygon) && polygon.every(ring =>
                 Array.isArray(ring) && ring.length >= 3
               )
             );
