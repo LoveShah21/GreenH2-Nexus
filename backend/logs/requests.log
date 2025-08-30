@@ -55,6 +55,7 @@
 {"level":"info","message":{"ip":"::1","method":"DELETE","url":"/api/analytics/scenarios/507f1f77bcf86cd799439013","userAgent":"PostmanRuntime/7.45.0"},"timestamp":"2025-08-30T13:33:58.551Z"}
 {"level":"info","message":{"ip":"::1","method":"GET","url":"/api/analytics/summary?projectId=507f1f77bcf86cd799439011","userAgent":"PostmanRuntime/7.45.0"},"timestamp":"2025-08-30T13:35:10.422Z"}
 {"level":"info","message":{"ip":"::1","method":"GET","url":"/health","userAgent":"PostmanRuntime/7.45.0"},"timestamp":"2025-08-30T13:35:43.213Z"}
+<<<<<<< HEAD
 {"level":"info","message":{"ip":"::1","method":"GET","url":"/health","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"},"timestamp":"2025-08-30T20:27:48.796Z"}
 {"level":"info","message":{"ip":"::1","method":"GET","url":"/favicon.ico","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"},"timestamp":"2025-08-30T20:27:49.281Z"}
 {"level":"info","message":{"ip":"::1","method":"GET","url":"/","userAgent":"node-fetch/1.0 (+https://github.com/bitinn/node-fetch)"},"timestamp":"2025-08-30T21:02:32.630Z"}
@@ -148,3 +149,15 @@
 {"level":"info","message":{"ip":"::1","method":"GET","url":"/api/infrastructure?","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"},"timestamp":"2025-08-30T21:44:15.575Z"}
 {"level":"info","message":{"ip":"::1","method":"GET","url":"/api/infrastructure","userAgent":"PostmanRuntime/7.45.0"},"timestamp":"2025-08-30T21:45:12.274Z"}
 {"level":"info","message":{"ip":"::1","method":"GET","url":"/api/infrastructure","userAgent":"PostmanRuntime/7.45.0"},"timestamp":"2025-08-30T21:46:10.294Z"}
+=======
+{"level":"info","message":{"ip":"::1","method":"POST","url":"/api/analytics/geospatial","userAgent":"PostmanRuntime/7.45.0"},"timestamp":"2025-08-30T21:02:32.549Z"}
+{"level":"info","message":{"ip":"::1","method":"POST","url":"/api/analytics/geospatial","userAgent":"PostmanRuntime/7.45.0"},"timestamp":"2025-08-30T21:02:41.173Z"}
+{"level":"info","message":{"ip":"::1","method":"POST","url":"/api/analytics/geospatial","userAgent":"PostmanRuntime/7.45.0"},"timestamp":"2025-08-30T21:05:48.634Z"}
+{"level":"info","message":{"ip":"::1","method":"POST","url":"/api/analytics/geospatial","userAgent":"PostmanRuntime/7.45.0"},"timestamp":"2025-08-30T21:05:54.370Z"}
+{"level":"info","message":{"ip":"::1","method":"POST","url":"/api/analytics/geospatial","userAgent":"PostmanRuntime/7.45.0"},"timestamp":"2025-08-30T21:10:35.444Z"}
+{"level":"info","message":{"ip":"::1","method":"POST","url":"/api/analytics/capacity-planning","userAgent":"PostmanRuntime/7.45.0"},"timestamp":"2025-08-30T21:19:04.684Z"}
+{"level":"info","message":{"ip":"::1","method":"POST","url":"//api/infrastructure","userAgent":"PostmanRuntime/7.45.0"},"timestamp":"2025-08-30T21:22:39.425Z"}
+{"level":"info","message":{"ip":"::1","method":"POST","url":"/api/infrastructure","userAgent":"PostmanRuntime/7.45.0"},"timestamp":"2025-08-30T21:23:27.797Z"}
+{"level":"info","message":{"ip":"::1","method":"POST","url":"/api/infrastructure","userAgent":"PostmanRuntime/7.45.0"},"timestamp":"2025-08-30T21:28:59.174Z"}
+{"level":"info","message":{"ip":"::1","method":"POST","url":"/api/infrastructure","userAgent":"PostmanRuntime/7.45.0"},"timestamp":"2025-08-30T21:32:37.549Z"}
+>>>>>>> 61a7f27577634df9127d219fbf99684a4ae8f7ba
