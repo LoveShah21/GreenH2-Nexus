@@ -14,6 +14,8 @@ export interface Project {
     address?: string;
     type?: string;
     coordinates?: [number, number]; // GeoJSON format [lng, lat]
+    region?: string;
+    country?: string;
   };
   owner?: string;
   startDate?: string;
@@ -28,9 +30,14 @@ export interface Project {
     currency?: string;
   };
   efficiency?: number;
-  stakeholders?: string[];
+  stakeholders?: {
+    partners?: string[];
+  };
   timeline?: {
     expectedCompletion?: string;
+  };
+  environmental?: {
+    co2ReductionPotential?: number;
   };
   createdAt?: string;
   updatedAt?: string;

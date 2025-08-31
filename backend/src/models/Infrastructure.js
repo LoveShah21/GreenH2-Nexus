@@ -18,20 +18,27 @@ const infrastructureSchema = new mongoose.Schema({
       type: mongoose.Schema.Types.Mixed, // Flexible for different geometries
       required: true,
       validate: {
-        validator: function(v) {
+        validator: function (v) {
           // Basic validation for different geometry types
+          console.log('Validating coordinates:', v);
+          console.log('Geometry type:', this.geometry?.type);
+          console.log('Parent object:', this);
+
           if (this.geometry.type === 'Point') {
-            return Array.isArray(v) && v.length === 2 &&
-                   v[0] >= -180 && v[0] <= 180 &&
-                   v[1] >= -90 && v[1] <= 90;
+            const isValid = Array.isArray(v) && v.length === 2 &&
+              typeof v[0] === 'number' && typeof v[1] === 'number' &&
+              v[0] >= -180 && v[0] <= 180 &&
+              v[1] >= -90 && v[1] <= 90;
+            console.log('Point validation result:', isValid);
+            return isValid;
           }
           if (this.geometry.type === 'LineString') {
             return Array.isArray(v) && v.length >= 2 &&
-                   v.every(coord => Array.isArray(coord) && coord.length === 2);
+              v.every(coord => Array.isArray(coord) && coord.length === 2);
           }
           if (this.geometry.type === 'Polygon') {
             return Array.isArray(v) && v.length >= 1 &&
-                   v.every(ring => Array.isArray(ring) && ring.length >= 3);
+              v.every(ring => Array.isArray(ring) && ring.length >= 3);
           }
           if (this.geometry.type === 'MultiPolygon') {
             return Array.isArray(v) && v.every(polygon =>
@@ -121,12 +128,12 @@ infrastructureSchema.index({ infrastructureType: 1, operationalStatus: 1, geomet
 infrastructureSchema.index({ projectId: 1, infrastructureType: 1 });
 
 // Static method to find infrastructure by type and status
-infrastructureSchema.statics.findByTypeAndStatus = function(type, status) {
+infrastructureSchema.statics.findByTypeAndStatus = function (type, status) {
   return this.find({ infrastructureType: type, operationalStatus: status });
 };
 
 // Static method to find infrastructure within bounds
-infrastructureSchema.statics.findWithinBounds = function(bounds) {
+infrastructureSchema.statics.findWithinBounds = function (bounds) {
   return this.find({
     geometry: {
       $geoWithin: {
@@ -140,7 +147,7 @@ infrastructureSchema.statics.findWithinBounds = function(bounds) {
 };
 
 // Static method to find infrastructure near a point
-infrastructureSchema.statics.findNearPoint = function(longitude, latitude, maxDistanceKm) {
+infrastructureSchema.statics.findNearPoint = function (longitude, latitude, maxDistanceKm) {
   return this.find({
     geometry: {
       $near: {
@@ -155,14 +162,14 @@ infrastructureSchema.statics.findNearPoint = function(longitude, latitude, maxDi
 };
 
 // Static method to find connected infrastructure
-infrastructureSchema.statics.findConnected = function(infrastructureId) {
+infrastructureSchema.statics.findConnected = function (infrastructureId) {
   return this.find({
     'connectedInfrastructure.infrastructureId': infrastructureId
   });
 };
 
 // Static method to find infrastructure by capacity range
-infrastructureSchema.statics.findByCapacityRange = function(minCapacity, maxCapacity) {
+infrastructureSchema.statics.findByCapacityRange = function (minCapacity, maxCapacity) {
   const query = {};
   if (minCapacity !== undefined) query['capacity.value'] = { $gte: minCapacity };
   if (maxCapacity !== undefined) {
@@ -176,7 +183,7 @@ infrastructureSchema.statics.findByCapacityRange = function(minCapacity, maxCapa
 };
 
 // Instance method to get total connected capacity
-infrastructureSchema.methods.getTotalConnectedCapacity = async function() {
+infrastructureSchema.methods.getTotalConnectedCapacity = async function () {
   const connectedIds = this.connectedInfrastructure.map(conn => conn.infrastructureId);
   const connectedInfra = await this.constructor.find({
     _id: { $in: connectedIds }
@@ -185,12 +192,12 @@ infrastructureSchema.methods.getTotalConnectedCapacity = async function() {
 };
 
 // Instance method to check if infrastructure is operational
-infrastructureSchema.methods.isOperational = function() {
+infrastructureSchema.methods.isOperational = function () {
   return this.operationalStatus === 'operational';
 };
 
 // Instance method to get connection count
-infrastructureSchema.methods.getConnectionCount = function() {
+infrastructureSchema.methods.getConnectionCount = function () {
   return this.connectedInfrastructure.length;
 };
 

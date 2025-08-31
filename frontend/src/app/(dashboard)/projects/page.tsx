@@ -20,6 +20,8 @@ import { Button } from "@/components/ui/Button";
 import { FadeIn } from "@/components/animations/FadeIn";
 import { projectsApi } from "@/lib/api/projects";
 import { Project } from "@/types/project";
+import AddProjectModal from "@/components/modals/AddProjectModal";
+import { exportToCSV, exportToJSON } from "@/utils/exportUtils";
 
 export default function ProjectsPage() {
   const [selectedStatus, setSelectedStatus] = useState("all");
@@ -27,6 +29,7 @@ export default function ProjectsPage() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [showAddModal, setShowAddModal] = useState(false);
 
   useEffect(() => {
     const loadProjects = async () => {
@@ -54,6 +57,55 @@ export default function ProjectsPage() {
 
     loadProjects();
   }, [selectedStatus, searchTerm]);
+
+  const handleExportCSV = () => {
+    try {
+      exportToCSV(
+        displayProjects,
+        `projects-${new Date().toISOString().split("T")[0]}.csv`
+      );
+    } catch (error) {
+      console.error("Export failed:", error);
+    }
+  };
+
+  const handleExportJSON = () => {
+    try {
+      exportToJSON(
+        displayProjects,
+        `projects-${new Date().toISOString().split("T")[0]}.json`
+      );
+    } catch (error) {
+      console.error("Export failed:", error);
+    }
+  };
+
+  const refreshProjects = () => {
+    const loadProjects = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const filters: any = {};
+        if (selectedStatus !== "all") {
+          filters.status = selectedStatus;
+        }
+        if (searchTerm) {
+          filters.search = searchTerm;
+        }
+
+        const response = await projectsApi.getProjects(filters);
+        setProjects(response.data || []);
+      } catch (error: any) {
+        console.error("Failed to load projects:", error);
+        setError("Failed to load projects");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadProjects();
+  };
 
   const statusColors = {
     Operational:
@@ -118,7 +170,7 @@ export default function ProjectsPage() {
             </p>
           </div>
 
-          <Button className="group">
+          <Button className="group" onClick={() => setShowAddModal(true)}>
             <Plus className="w-4 h-4 mr-2 group-hover:rotate-90 transition-transform" />
             New Project
           </Button>
@@ -161,10 +213,26 @@ export default function ProjectsPage() {
                   <Filter className="w-4 h-4 mr-2" />
                   More Filters
                 </Button>
-                <Button variant="outline" size="sm">
-                  <Download className="w-4 h-4 mr-2" />
-                  Export
-                </Button>
+                <div className="relative group">
+                  <Button variant="outline" size="sm">
+                    <Download className="w-4 h-4 mr-2" />
+                    Export
+                  </Button>
+                  <div className="absolute right-0 top-full mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-10">
+                    <button
+                      onClick={handleExportCSV}
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-t-lg"
+                    >
+                      Export as CSV
+                    </button>
+                    <button
+                      onClick={handleExportJSON}
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-b-lg"
+                    >
+                      Export as JSON
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </CardContent>
@@ -333,13 +401,20 @@ export default function ProjectsPage() {
                 ? "Try adjusting your search or filter criteria."
                 : "Get started by creating your first hydrogen infrastructure project."}
             </p>
-            <Button>
+            <Button onClick={() => setShowAddModal(true)}>
               <Plus className="w-4 h-4 mr-2" />
               Create New Project
             </Button>
           </Card>
         </FadeIn>
       )}
+
+      {/* Add Project Modal */}
+      <AddProjectModal
+        isOpen={showAddModal}
+        onClose={() => setShowAddModal(false)}
+        onSuccess={refreshProjects}
+      />
     </div>
   );
 }

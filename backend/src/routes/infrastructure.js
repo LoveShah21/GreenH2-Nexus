@@ -2,6 +2,7 @@ const express = require('express');
 const { body, query, param, validationResult } = require('express-validator');
 const { authorizeRole } = require('../middleware/auth');
 const { logger } = require('../utils/logger');
+const infrastructureService = require('../services/infrastructureService');
 
 const router = express.Router();
 
@@ -36,11 +37,21 @@ router.get('/', validatePagination, async (req, res) => {
       });
     }
 
-    // Placeholder response
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 20;
+
+    // Build filters
+    const filters = {};
+    if (req.query.infrastructureType) filters.infrastructureType = req.query.infrastructureType;
+    if (req.query.operationalStatus) filters.operationalStatus = req.query.operationalStatus;
+    if (req.query.projectId) filters.projectId = req.query.projectId;
+
+    const result = await infrastructureService.getInfrastructure(filters, { page, limit });
+
     res.status(200).json({
       success: true,
-      message: 'Infrastructure endpoint - to be implemented',
-      data: []
+      data: result.infrastructure,
+      pagination: result.pagination
     });
 
   } catch (error) {
@@ -54,6 +65,42 @@ router.get('/', validatePagination, async (req, res) => {
 
 // POST /api/infrastructure - Create new infrastructure
 router.post('/', validateInfrastructureData, authorizeRole('analyst'), infrastructureController.createInfrastructure);
+
+// GET /api/infrastructure/:id - Get infrastructure by ID
+router.get('/:id', param('id').isMongoId().withMessage('Invalid infrastructure ID'), async (req, res) => {
+  try {
+    // Check for validation errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        success: false,
+        error: 'Validation failed',
+        details: errors.array()
+      });
+    }
+
+    const infrastructureId = req.params.id;
+    const infrastructure = await infrastructureService.getInfrastructureById(infrastructureId);
+
+    res.status(200).json({
+      success: true,
+      data: infrastructure
+    });
+
+  } catch (error) {
+    logger.error('Get infrastructure by ID failed:', error);
+    if (error.message === 'Infrastructure not found') {
+      return res.status(404).json({
+        success: false,
+        error: 'Infrastructure not found'
+      });
+    }
+    res.status(500).json({
+      success: false,
+      error: error.message || 'Failed to get infrastructure'
+    });
+  }
+});
 
 // GET /api/infrastructure/route-optimization - Route optimization analysis
 router.get('/route-optimization', async (req, res) => {

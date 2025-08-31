@@ -29,13 +29,33 @@ const projectSchema = new mongoose.Schema({
       type: [Number], // [longitude, latitude]
       required: true,
       validate: {
-        validator: function(v) {
-          return v.length === 2 && 
-                 v[0] >= -180 && v[0] <= 180 && // longitude
-                 v[1] >= -90 && v[1] <= 90;     // latitude
+        validator: function (v) {
+          return v.length === 2 &&
+            v[0] >= -180 && v[0] <= 180 && // longitude
+            v[1] >= -90 && v[1] <= 90;     // latitude
         },
         message: 'Invalid coordinates. Longitude must be between -180 and 180, latitude between -90 and 90.'
       }
+    },
+    address: {
+      type: String,
+      trim: true
+    },
+    city: {
+      type: String,
+      trim: true
+    },
+    region: {
+      type: String,
+      trim: true
+    },
+    country: {
+      type: String,
+      trim: true
+    },
+    postalCode: {
+      type: String,
+      trim: true
     }
   },
   capacityTPA: {
@@ -89,7 +109,14 @@ const projectSchema = new mongoose.Schema({
     index: true
   }
 }, {
-  timestamps: true
+  timestamps: true,
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true }
+});
+
+// Virtual for id field
+projectSchema.virtual('id').get(function () {
+  return this._id.toHexString();
 });
 
 // Geospatial index for location-based queries
@@ -102,7 +129,7 @@ projectSchema.index({ projectType: 1, status: 1, location: '2dsphere' });
 projectSchema.index({ name: 'text', 'metadata.tags': 'text' });
 
 // Validation for completion date
-projectSchema.pre('save', function(next) {
+projectSchema.pre('save', function (next) {
   if (this.completionDate && this.startDate && this.completionDate < this.startDate) {
     return next(new Error('Completion date cannot be before start date'));
   }
@@ -110,12 +137,12 @@ projectSchema.pre('save', function(next) {
 });
 
 // Static method to find projects by type and status
-projectSchema.statics.findByTypeAndStatus = function(projectType, status) {
+projectSchema.statics.findByTypeAndStatus = function (projectType, status) {
   return this.find({ projectType, status });
 };
 
 // Static method to find projects within radius
-projectSchema.statics.findNearby = function(longitude, latitude, radiusKm) {
+projectSchema.statics.findNearby = function (longitude, latitude, radiusKm) {
   return this.find({
     location: {
       $near: {
@@ -130,7 +157,7 @@ projectSchema.statics.findNearby = function(longitude, latitude, radiusKm) {
 };
 
 // Static method to find projects within bounds
-projectSchema.statics.findWithinBounds = function(bounds) {
+projectSchema.statics.findWithinBounds = function (bounds) {
   return this.find({
     location: {
       $geoWithin: {
@@ -144,7 +171,7 @@ projectSchema.statics.findWithinBounds = function(bounds) {
 };
 
 // Static method to find projects by capacity range
-projectSchema.statics.findByCapacityRange = function(minCapacity, maxCapacity) {
+projectSchema.statics.findByCapacityRange = function (minCapacity, maxCapacity) {
   const query = {};
   if (minCapacity !== undefined) query.capacityTPA = { $gte: minCapacity };
   if (maxCapacity !== undefined) {
@@ -158,14 +185,14 @@ projectSchema.statics.findByCapacityRange = function(minCapacity, maxCapacity) {
 };
 
 // Instance method to calculate project duration
-projectSchema.methods.getDuration = function() {
+projectSchema.methods.getDuration = function () {
   if (!this.startDate) return null;
   const endDate = this.completionDate || new Date();
   return Math.ceil((endDate - this.startDate) / (1000 * 60 * 60 * 24)); // days
 };
 
 // Instance method to check if project is overdue
-projectSchema.methods.isOverdue = function() {
+projectSchema.methods.isOverdue = function () {
   if (!this.completionDate || this.status === 'operational') return false;
   return new Date() > this.completionDate;
 };

@@ -17,6 +17,7 @@ import InvestmentFlowChart from "@/components/analytics/InvestmentFlowChart";
 import { useState, useEffect } from "react";
 import { analyticsApi } from "@/lib/api/analytics";
 import { projectsApi } from "@/lib/api/projects";
+import { exportAnalyticsReport } from "@/utils/exportUtils";
 
 export default function AnalyticsPage() {
   const [analyticsData, setAnalyticsData] = useState<any>(null);
@@ -32,7 +33,7 @@ export default function AnalyticsPage() {
         // Load analytics summary and projects for KPI calculation
         const [analyticsSummary, projectsResponse] = await Promise.all([
           analyticsApi.getAnalyticsSummary().catch(() => null),
-          projectsApi.getProjects({ limit: 1000 }).catch(() => ({ data: [] })),
+          projectsApi.getProjects({ limit: 100 }).catch(() => ({ data: [] })),
         ]);
 
         setAnalyticsData({
@@ -74,6 +75,25 @@ export default function AnalyticsPage() {
         activeProjects: 0,
         efficiencyScore: 0,
       };
+
+  const handleExportReport = async () => {
+    try {
+      const exportData = {
+        projects: analyticsData?.projects || [],
+        summary: kpiData,
+        analytics: analyticsData?.summary,
+      };
+
+      await exportAnalyticsReport(exportData, {
+        format: "pdf",
+        filename: `analytics-report-${new Date().toISOString().split("T")[0]}`,
+        includeCharts: true,
+      });
+    } catch (error) {
+      console.error("Export failed:", error);
+    }
+  };
+
   return (
     <div className="p-6 space-y-6">
       {/* Header */}
@@ -95,7 +115,7 @@ export default function AnalyticsPage() {
             <Filter className="w-4 h-4 mr-2" />
             Filters
           </Button>
-          <Button>
+          <Button onClick={handleExportReport}>
             <BarChart3 className="w-4 h-4 mr-2" />
             Export Report
           </Button>

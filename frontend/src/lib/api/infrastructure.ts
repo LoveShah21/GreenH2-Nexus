@@ -13,7 +13,14 @@ export interface Infrastructure {
   };
   operationalStatus: 'operational' | 'under_construction' | 'planned' | 'decommissioned';
   projectId: string;
-  metadata?: any;
+  specifications?: {
+    diameter?: number;
+    pressure?: number;
+    material?: string;
+    safetyRating?: string;
+  };
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface InfrastructureFilters {
@@ -36,10 +43,10 @@ export const infrastructureApi = {
     const response = await apiClient.get<{ success: boolean; data: Infrastructure[] }>(
       `/infrastructure?${params.toString()}`
     );
-    return response.data;
+    return response.data || [];
   },
 
-  async createInfrastructure(infrastructure: Omit<Infrastructure, 'id'>): Promise<Infrastructure> {
+  async createInfrastructure(infrastructure: Omit<Infrastructure, 'id' | 'createdAt' | 'updatedAt'>): Promise<Infrastructure> {
     const response = await apiClient.post<{ success: boolean; data: Infrastructure }>(
       '/infrastructure',
       infrastructure

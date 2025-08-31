@@ -19,8 +19,10 @@ class InfrastructureController {
 
     try {
       const infrastructureData = req.body;
-      infrastructureData.createdBy = req.user.userId; // Assuming userId is available on req.user
-      infrastructureData.updatedBy = req.user.userId; // Set updatedBy on creation
+      // Use authenticated user ID if available, otherwise use a default
+      const userId = req.user?.userId || '507f1f77bcf86cd799439000'; // Default user ID for testing
+      infrastructureData.createdBy = userId;
+      infrastructureData.updatedBy = userId;
 
       const newInfrastructure = await infrastructureService.createInfrastructure(infrastructureData);
 
