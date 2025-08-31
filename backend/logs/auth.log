@@ -16,3 +16,14 @@
 {"level":"error","message":"User registration failed:","timestamp":"2025-08-31 03:09:37:937"}
 {"level":"info","message":"User logged in: test@example.com","timestamp":"2025-08-31 03:09:38:938"}
 {"level":"error","message":"Token verification failed:","timestamp":"2025-08-31 03:15:12:1512"}
+{"level":"info","message":"User logged in: test@example.com","timestamp":"2025-08-31 04:22:19:2219"}
+{"level":"info","message":"User logged in: test@example.com","timestamp":"2025-08-31 04:24:00:240"}
+{"level":"info","message":"User logged in: test@example.com","timestamp":"2025-08-31 04:24:09:249"}
+{"level":"info","message":"User logged in: test@example.com","timestamp":"2025-08-31 04:27:24:2724"}
+{"level":"info","message":"User logged in: love@gmail.com","timestamp":"2025-08-31 04:28:08:288"}
+{"level":"info","message":"User logged out: love@gmail.com","timestamp":"2025-08-31 04:42:14:4214"}
+{"level":"info","message":"User logged in: love@gmail.com","timestamp":"2025-08-31 04:42:30:4230"}
+{"level":"error","message":"User registration failed:","timestamp":"2025-08-31 05:00:36:036"}
+{"level":"info","message":"User logged in: test@example.com","timestamp":"2025-08-31 05:00:36:036"}
+{"level":"error","message":"User registration failed:","timestamp":"2025-08-31 05:12:38:1238"}
+{"level":"info","message":"User logged in: test@example.com","timestamp":"2025-08-31 05:12:39:1239"}

@@ -110,19 +110,38 @@ export const IntegratedMap: React.FC<IntegratedMapProps> = ({
 
       // Convert projects to markers
       const projectMarkers: MarkerData[] = response.data.map(
-        (project, index) => ({
-          id: `project-${project.id || index}`,
-          position: [project.location.lat, project.location.lng] as [
-            number,
-            number
-          ],
-          color: "blue",
-          size: "medium" as const,
-          popup: {
-            title: project.name,
-            content: `Type: ${project.type}\nStatus: ${project.status}\nCapacity: ${project.capacity} MW`,
-          },
-        })
+        (project, index) => {
+          // Handle different location formats from backend
+          let lat, lng;
+          if (project.location?.coordinates) {
+            // GeoJSON format: [longitude, latitude]
+            lng = project.location.coordinates[0];
+            lat = project.location.coordinates[1];
+          } else if (project.location?.lat && project.location?.lng) {
+            // Object format: {lat, lng}
+            lat = project.location.lat;
+            lng = project.location.lng;
+          } else {
+            // Default fallback
+            lat = 51.505;
+            lng = -0.09;
+          }
+
+          return {
+            id: `project-${project.id || project._id || index}`,
+            position: [lat, lng] as [number, number],
+            color: "blue",
+            size: "medium" as const,
+            popup: {
+              title: project.name || "Unnamed Project",
+              content: `Type: ${
+                project.type || project.projectType || "Unknown"
+              }\nStatus: ${project.status || "Unknown"}\nCapacity: ${
+                project.capacity || project.capacityTPA || "Unknown"
+              } ${project.capacityTPA ? "TPA" : "MW"}`,
+            },
+          };
+        }
       );
 
       setMarkers((prev) => [

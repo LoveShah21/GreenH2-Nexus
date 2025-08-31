@@ -26,9 +26,11 @@ import { Input } from "@/components/ui/Input";
 import { FadeIn } from "@/components/animations/FadeIn";
 import { useThemeStore } from "@/lib/stores/themeStore";
 import { authApi } from "@/lib/api/auth";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function SettingsPage() {
   const { theme, toggleTheme } = useThemeStore();
+  const { user, isAuthenticated } = useAuth();
   const [activeTab, setActiveTab] = useState("profile");
   const [showPassword, setShowPassword] = useState(false);
   const [saveStatus, setSaveStatus] = useState<string | null>(null);
@@ -44,35 +46,19 @@ export default function SettingsPage() {
     phone: "",
   });
 
-  // Load user profile on component mount
+  // Load user profile from auth context
   useEffect(() => {
-    const loadProfile = async () => {
-      try {
-        const user = await authApi.getCurrentUser();
-        setProfileData({
-          firstName: user.firstName || "",
-          lastName: user.lastName || "",
-          email: user.email || "",
-          organization: user.organization || "",
-          role: user.role || "",
-          phone: user.phone || "",
-        });
-      } catch (error) {
-        console.error("Failed to load profile:", error);
-        // Set default values if API fails
-        setProfileData({
-          firstName: "John",
-          lastName: "Doe",
-          email: "john.doe@example.com",
-          organization: "Green Energy Corp",
-          role: "Infrastructure Analyst",
-          phone: "+1 (555) 123-4567",
-        });
-      }
-    };
-
-    loadProfile();
-  }, []);
+    if (user && isAuthenticated) {
+      setProfileData({
+        firstName: user.firstName || "",
+        lastName: user.lastName || "",
+        email: user.email || "",
+        organization: user.organization || "",
+        role: user.role || "",
+        phone: user.phone || "", // Phone field for frontend use
+      });
+    }
+  }, [user, isAuthenticated]);
 
   const [securityData, setSecurityData] = useState({
     currentPassword: "",
@@ -209,6 +195,7 @@ export default function SettingsPage() {
               Phone
             </label>
             <Input
+              type="tel"
               value={profileData.phone}
               onChange={(e) =>
                 handleInputChange("profile", "phone", e.target.value)

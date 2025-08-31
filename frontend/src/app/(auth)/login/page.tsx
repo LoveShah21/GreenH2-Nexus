@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { authApi } from "@/lib/api/auth";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -18,6 +18,7 @@ export default function LoginPage() {
     password: "",
   });
   const router = useRouter();
+  const { login } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,13 +26,7 @@ export default function LoginPage() {
     setError("");
 
     try {
-      const response = await authApi.login({
-        email: formData.email,
-        password: formData.password,
-      });
-
-      console.log("Login successful:", response);
-      router.push("/dashboard");
+      await login(formData.email, formData.password);
     } catch (error: any) {
       console.error("Login failed:", error);
       setError(error.message || "Login failed. Please try again.");

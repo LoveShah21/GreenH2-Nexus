@@ -1,30 +1,32 @@
-export interface ApiResponse<T> {
-  data: T;
-  message?: string;
+export interface User {
+  id: string;
+  email: string;
+  firstName?: string;
+  lastName?: string;
+  organization?: string;
+  role?: string;
+  phone?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface AuthResponse {
   success: boolean;
+  user: User;
+  token: string;
+  message?: string;
 }
 
 export interface PaginatedResponse<T> {
   data: T[];
-  pagination: {
-    page: number;
-    limit: number;
-    total: number;
-    totalPages: number;
-  };
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
 }
 
-export interface AuthResponse {
-  user: User;
-  token: string;
-  refreshToken: string;
-}
-
-export interface User {
-  id: string;
-  email: string;
-  name: string;
-  role: 'admin' | 'user' | 'analyst';
-  createdAt: string;
-  updatedAt: string;
+export interface ApiError {
+  message: string;
+  code?: string;
+  status?: number;
 }

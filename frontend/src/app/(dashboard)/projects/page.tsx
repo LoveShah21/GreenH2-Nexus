@@ -73,9 +73,17 @@ export default function ProjectsPage() {
     location: `${project.location?.region || "Unknown"}, ${
       project.location?.country || "Unknown"
     }`,
-    type: project.type.charAt(0).toUpperCase() + project.type.slice(1),
-    status: project.status.charAt(0).toUpperCase() + project.status.slice(1),
-    capacity: `${project.capacity} MW`,
+    type:
+      (project.type || project.projectType || "unknown")
+        .charAt(0)
+        .toUpperCase() +
+      (project.type || project.projectType || "unknown").slice(1),
+    status:
+      (project.status || "unknown").charAt(0).toUpperCase() +
+      (project.status || "unknown").slice(1),
+    capacity: `${project.capacity || project.capacityTPA || 0} ${
+      project.capacityTPA ? "TPA" : "MW"
+    }`,
     investment: `$${(project.investment?.total / 1000000).toFixed(0)}M`,
     completion: project.timeline?.expectedCompletion
       ? new Date(project.timeline.expectedCompletion).toLocaleDateString(

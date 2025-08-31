@@ -49,6 +49,15 @@ export class ApiClient {
       const response = await fetch(url, config);
       
       if (!response.ok) {
+        // Handle 401 Unauthorized errors
+        if (response.status === 401) {
+          this.clearToken();
+          // Only redirect if we're in the browser and not already on login page
+          if (typeof window !== 'undefined' && !window.location.pathname.includes('/login')) {
+            window.location.href = '/login';
+          }
+        }
+        
         const errorData = await response.json().catch(() => ({}));
         throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
       }

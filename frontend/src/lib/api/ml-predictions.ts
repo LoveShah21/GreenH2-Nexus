@@ -41,9 +41,31 @@ export interface AreaAnalysisResponse {
 
 export const mlPredictionsApi = {
   async predictZone(lat: number, lng: number): Promise<ZonePrediction> {
+    // Validate inputs
+    if (typeof lat !== 'number' || typeof lng !== 'number') {
+      throw new Error('Latitude and longitude must be numbers');
+    }
+    
+    if (lat < -90 || lat > 90) {
+      throw new Error('Latitude must be between -90 and 90');
+    }
+    
+    if (lng < -180 || lng > 180) {
+      throw new Error('Longitude must be between -180 and 180');
+    }
+    
+    console.log('Making ML prediction request:', { lat, lng });
+    
     const response = await apiClient.get<{ success: boolean; data: ZonePrediction }>(
       `/ml-predictions/predict-zone?lat=${lat}&lng=${lng}`
     );
+    
+    console.log('ML prediction response:', response);
+    
+    if (!response.data) {
+      throw new Error('No prediction data received');
+    }
+    
     return response.data;
   },
 

@@ -101,8 +101,12 @@ export default function DashboardPage() {
     location: `${project.location?.region || "Unknown"}, ${
       project.location?.country || "Unknown"
     }`,
-    capacity: `${project.capacity} MW`,
-    status: project.status.charAt(0).toUpperCase() + project.status.slice(1),
+    capacity: `${project.capacity || project.capacityTPA || 0} ${
+      project.capacityTPA ? "TPA" : "MW"
+    }`,
+    status:
+      (project.status || "unknown").charAt(0).toUpperCase() +
+      (project.status || "unknown").slice(1),
     completion: project.timeline?.expectedCompletion
       ? new Date(project.timeline.expectedCompletion).toLocaleDateString(
           "en-US",

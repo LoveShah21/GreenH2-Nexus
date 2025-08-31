@@ -1,43 +1,59 @@
 export interface Project {
-  id: string;
+  id?: string;
+  _id?: string;
   name: string;
-  description: string;
-  status: 'concept' | 'planning' | 'construction' | 'operational' | 'decommissioned';
-  type: 'production' | 'storage' | 'distribution' | 'transport';
-  capacity: number; // in MW or kg/day
+  description?: string;
+  type?: 'electrolyzer' | 'storage' | 'transport' | 'distribution';
+  projectType?: 'production' | 'storage' | 'distribution' | 'hub';
+  capacity?: string | number;
+  capacityTPA?: number;
+  status: 'operational' | 'planned' | 'construction' | 'decommissioned' | 'concept' | 'planning';
   location: {
-    lat: number;
-    lng: number;
-    address: string;
-    region: string;
-    country: string;
+    lat?: number;
+    lng?: number;
+    address?: string;
+    type?: string;
+    coordinates?: [number, number]; // GeoJSON format [lng, lat]
   };
-  investment: {
-    total: number;
-    currency: string;
-    investors: string[];
+  owner?: string;
+  startDate?: string;
+  endDate?: string;
+  completionDate?: string;
+  investment?: {
+    total?: number;
   };
-  timeline: {
-    startDate: string;
-    expectedCompletion: string;
-    actualCompletion?: string;
+  cost?: {
+    estimated?: number;
+    actual?: number;
+    currency?: string;
   };
-  environmental: {
-    co2ReductionPotential: number; // tons per year
-    renewableEnergySource?: string;
-    certifications: string[];
+  efficiency?: number;
+  stakeholders?: string[];
+  timeline?: {
+    expectedCompletion?: string;
   };
-  stakeholders: {
-    developer: string;
-    operator?: string;
-    partners: string[];
+  createdAt?: string;
+  updatedAt?: string;
+  createdBy?: string;
+  updatedBy?: string;
+}
+
+export interface ProjectFilters {
+  type?: string;
+  status?: string;
+  owner?: string;
+  location?: string;
+  capacity?: {
+    min?: number;
+    max?: number;
   };
-  technicalSpecs: {
-    technology: string;
-    efficiency?: number;
-    storageCapacity?: number;
-    pipelineLength?: number;
-  };
-  createdAt: string;
-  updatedAt: string;
+}
+
+export interface ProjectStats {
+  total: number;
+  operational: number;
+  planned: number;
+  construction: number;
+  totalCapacity: number;
+  averageEfficiency: number;
 }

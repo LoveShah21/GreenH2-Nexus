@@ -15,7 +15,7 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
 // Fix for default markers in React-Leaflet
-delete (L.Icon.Default.prototype as any)._getIconUrl;
+delete (L.Icon.Default.prototype as unknown)._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl:
     "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",
@@ -66,6 +66,30 @@ const MapEvents: React.FC<MapEventsProps> = ({
       map.flyTo(e.latlng, map.getZoom());
     },
   });
+
+  return null;
+};
+
+// Component to handle map view changes
+interface MapViewControllerProps {
+  center: [number, number];
+  zoom: number;
+}
+
+const MapViewController: React.FC<MapViewControllerProps> = ({
+  center,
+  zoom,
+}) => {
+  const map = useMap();
+
+  useEffect(() => {
+    if (center && zoom) {
+      console.log(`Flying to: ${center[0]}, ${center[1]} with zoom ${zoom}`);
+      map.flyTo(center, zoom, {
+        duration: 1.5, // Smooth animation duration
+      });
+    }
+  }, [map, center, zoom]);
 
   return null;
 };
@@ -149,9 +173,15 @@ interface SearchControlProps {
   onSearch?: (result: { latLng: [number, number]; name: string }) => void;
 }
 
+interface SearchSuggestion {
+  lat: string;
+  lon: string;
+  display_name: string;
+}
+
 const SearchControl: React.FC<SearchControlProps> = ({ onSearch }) => {
   const [query, setQuery] = useState("");
-  const [suggestions, setSuggestions] = useState<unknown[]>([]);
+  const [suggestions, setSuggestions] = useState<SearchSuggestion[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const map = useMap();
 
@@ -309,7 +339,7 @@ const SearchControl: React.FC<SearchControlProps> = ({ onSearch }) => {
     return () => {
       control.remove();
     };
-  }, [map, query, suggestions, showSuggestions]);
+  }, [map, query, suggestions, showSuggestions, handleSearch]);
 
   return null;
 };
@@ -468,6 +498,9 @@ export const AdvancedMap: React.FC<AdvancedMapProps> = ({
             url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
           />
         )}
+
+        {/* Map view controller for programmatic navigation */}
+        <MapViewController center={center} zoom={zoom} />
 
         {/* Map events */}
         <MapEvents
